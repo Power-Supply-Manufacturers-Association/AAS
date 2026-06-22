@@ -1,0 +1,80 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/analogSwitch.json",
+    "title": "analogSwitch",
+    "description": "CMOS analog-switch component data. The presence of the 'analogSwitch' field at the top level of an AAS document discriminates the family.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "analogSwitchManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "analogSwitchDatasheetInfo",
+            "description": "All information extracted from the analog-switch datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "analogSwitchElectrical",
+            "description": "Analog-switch electricals: the shared switchCore plus the switch configuration and channel count.",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/switchCore" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "switchConfiguration": {
+                            "description": "Pole/throw configuration.",
+                            "type": "string",
+                            "enum": [ "SPST-NO", "SPST-NC", "SPDT", "DPST", "DPDT", "SP3T", "SP4T", "DP3T", "DP4T", "4PST" ]
+                        },
+                        "numberOfSwitches": {
+                            "description": "Independent switches in the package.",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "totalHarmonicDistortion": {
+                            "description": "On-path THD at a stated signal, in dB.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [ "switchConfiguration" ]
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}

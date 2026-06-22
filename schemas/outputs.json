@@ -1,0 +1,116 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/outputs.json",
+    "title": "outputs",
+    "description": "Results computed for one operating point of an analog IC. Each block is independently optional and carries the PEAS outputBase {origin, methodUsed} provenance shell. outputs[i] aligns positionally with inputs.operatingPoints[i]. Analog ICs are mostly SELECTED rather than simulated, so the output surface is deliberately small: the part's own dissipation and resulting junction temperature, plus a selection-margin block recording how the bound part met the seed.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [],
+    "properties": {
+        "powerDissipation": {
+            "description": "The part's own power dissipation at this operating point.",
+            "$ref": "#/$defs/powerDissipationOutput"
+        },
+        "thermal": {
+            "description": "Junction temperature reached under the dissipation.",
+            "$ref": "#/$defs/thermalOutput"
+        },
+        "selection": {
+            "description": "How the bound part met the design-requirements seed.",
+            "$ref": "#/$defs/selectionOutput"
+        }
+    },
+    "$defs": {
+        "powerDissipationOutput": {
+            "title": "powerDissipationOutput",
+            "allOf": [
+                {
+                    "$ref": "https://psma.com/peas/outputs/outputBase.json"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "origin": {},
+                        "methodUsed": {},
+                        "quiescentLoss": {
+                            "description": "Supply-voltage * quiescent-current dissipation, in W.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "outputLoss": {
+                            "description": "Dissipation driving the output load at this operating point, in W.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "totalLoss": {
+                            "description": "Total dissipation, in W.",
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "required": [
+                        "totalLoss"
+                    ],
+                    "unevaluatedProperties": false
+                }
+            ]
+        },
+        "thermalOutput": {
+            "title": "thermalOutput",
+            "allOf": [
+                {
+                    "$ref": "https://psma.com/peas/outputs/outputBase.json"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "origin": {},
+                        "methodUsed": {},
+                        "junctionTemperature": {
+                            "description": "Predicted junction temperature, in degC.",
+                            "type": "number"
+                        },
+                        "passes": {
+                            "description": "True if junctionTemperature is within the part's maximum operating temperature.",
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "junctionTemperature"
+                    ],
+                    "unevaluatedProperties": false
+                }
+            ]
+        },
+        "selectionOutput": {
+            "title": "selectionOutput",
+            "allOf": [
+                {
+                    "$ref": "https://psma.com/peas/outputs/outputBase.json"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "origin": {},
+                        "methodUsed": {},
+                        "supplyVoltageMargin": {
+                            "description": "Fractional headroom of the part's supply range around the required supply.",
+                            "type": "number"
+                        },
+                        "channelsSatisfied": {
+                            "description": "True if the part provides at least the required number of channels.",
+                            "type": "boolean"
+                        },
+                        "passes": {
+                            "type": "boolean"
+                        }
+                    },
+                    "required": [
+                        "passes"
+                    ],
+                    "unevaluatedProperties": false
+                }
+            ]
+        }
+    }
+}

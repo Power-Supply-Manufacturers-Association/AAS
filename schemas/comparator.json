@@ -1,0 +1,114 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/comparator.json",
+    "title": "comparator",
+    "description": "Voltage-comparator component data. The presence of the 'comparator' field at the top level of an AAS document discriminates the family. Comparators are modelled standalone (not on amplifierCommon) because the defining dynamic spec is propagation delay, not slew rate / bandwidth.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "comparatorManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "comparatorDatasheetInfo",
+            "description": "All information extracted from the comparator datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "comparatorElectrical",
+            "description": "Comparator electricals. Propagation delay is meaningless without its overdrive and load capacitance, so both qualifiers are first-class fields. Hysteresis is null/absent when there is no internal hysteresis.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numberOfChannels": {
+                    "description": "Comparators per package.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "propagationDelay": {
+                    "description": "Propagation delay t_PD, in s.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "propagationDelayOverdrive": {
+                    "description": "Input overdrive at which t_PD is specified, in V.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "propagationDelayLoadCapacitance": {
+                    "description": "Load capacitance at which t_PD is specified, in F.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "inputOffsetVoltage": {
+                    "description": "Input offset voltage V_OS (max), in V.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "inputBiasCurrent": {
+                    "description": "Input bias current I_B, in A.",
+                    "type": "number"
+                },
+                "hysteresis": {
+                    "description": "Internal hysteresis, in V. Absent if the part has none (external hysteresis required).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "outputStage": {
+                    "description": "Output stage topology. Rail-to-rail is a property of push-pull/complementary stages.",
+                    "type": "string",
+                    "enum": [ "pushPull", "openDrain", "openCollector", "complementary" ]
+                },
+                "commonModeVoltageRange": {
+                    "description": "Input common-mode voltage range, in V (may extend beyond the rails).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "type": {
+                    "description": "Comparator speed/power class.",
+                    "type": "string",
+                    "enum": [ "generalPurpose", "lowPower", "highSpeed", "precision", "window" ]
+                },
+                "hasLatch": {
+                    "description": "True if the part has an output latch / enable.",
+                    "type": "boolean"
+                },
+                "supply": { "$ref": "./utils.json#/$defs/supply" }
+            },
+            "required": [ "propagationDelay" ]
+        }
+    }
+}

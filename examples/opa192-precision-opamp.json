@@ -1,0 +1,68 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "precision unity-gain buffer for sensor front end",
+            "deviceType": "operationalAmplifier",
+            "minimumChannels": 1,
+            "supplyVoltage": { "minimum": 4.5, "maximum": 36, "unit": "V" },
+            "maximumInputOffsetVoltage": 5e-5,
+            "minimumBandwidth": 1000000
+        }
+    },
+    "operationalAmplifier": {
+        "manufacturerInfo": {
+            "name": "Texas Instruments",
+            "reference": "OPA192",
+            "status": "production",
+            "datasheetUrl": "https://www.ti.com/lit/ds/symlink/opa192.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "OPA192IDBVR",
+                    "series": "OPAx192",
+                    "case": "SOT-23-5",
+                    "description": "36V, precision, rail-to-rail input/output, low offset voltage op amp"
+                },
+                "electrical": {
+                    "numberOfChannels": 1,
+                    "inputOffsetVoltage": 5e-6,
+                    "inputOffsetVoltageDrift": 5e-7,
+                    "inputBiasCurrent": 5e-12,
+                    "commonModeRejectionRatio": 140,
+                    "powerSupplyRejectionRatio": 140,
+                    "slewRate": 20000000,
+                    "voltageNoiseDensity": 5.5e-9,
+                    "voltageNoiseDensityFrequency": 1000,
+                    "supply": {
+                        "minimumSupplyVoltage": 4.5,
+                        "maximumSupplyVoltage": 36,
+                        "dualSupply": true,
+                        "quiescentCurrentPerChannel": 1e-3
+                    },
+                    "gainBandwidthProduct": 10000000,
+                    "openLoopGain": 140,
+                    "outputCurrent": 0.065,
+                    "architecture": "precision",
+                    "inputStage": "CMOS",
+                    "railToRailInput": true,
+                    "railToRailOutput": true,
+                    "unityGainStable": true,
+                    "hasShutdown": false
+                },
+                "thermal": {
+                    "operatingTemperature": { "minimum": -40, "maximum": 125, "unit": "degC" }
+                }
+            }
+        }
+    },
+    "outputs": [
+        {
+            "selection": {
+                "origin": "manufacturer",
+                "methodUsed": "datasheet selection",
+                "supplyVoltageMargin": 0.0,
+                "channelsSatisfied": true,
+                "passes": true
+            }
+        }
+    ]
+}

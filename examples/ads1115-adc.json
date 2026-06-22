@@ -1,0 +1,48 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "16-bit I2C ADC for slow precision measurement",
+            "deviceType": "adc",
+            "minimumChannels": 4,
+            "supplyVoltage": { "minimum": 2.0, "maximum": 5.5, "unit": "V" },
+            "minimumResolution": 16
+        }
+    },
+    "adc": {
+        "manufacturerInfo": {
+            "name": "Texas Instruments",
+            "reference": "ADS1115",
+            "status": "production",
+            "datasheetUrl": "https://www.ti.com/lit/ds/symlink/ads1115.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "ADS1115IDGSR",
+                    "case": "VSSOP-10",
+                    "description": "16-bit delta-sigma ADC with PGA, oscillator and I2C, 860 SPS"
+                },
+                "electrical": {
+                    "resolution": 16,
+                    "sampleRate": 860,
+                    "architecture": "deltaSigma",
+                    "numberOfChannels": 4,
+                    "inputType": "differential",
+                    "effectiveResolution": 16,
+                    "hasProgrammableGainAmplifier": true,
+                    "referenceSource": "internal",
+                    "referenceVoltage": 2.048,
+                    "digitalInterface": [ "I2C" ],
+                    "supply": {
+                        "minimumSupplyVoltage": 2.0,
+                        "maximumSupplyVoltage": 5.5,
+                        "dualSupply": false,
+                        "quiescentCurrentPerChannel": 1.5e-4
+                    }
+                },
+                "thermal": {
+                    "operatingTemperature": { "minimum": -40, "maximum": 125, "unit": "degC" }
+                }
+            }
+        }
+    },
+    "outputs": []
+}

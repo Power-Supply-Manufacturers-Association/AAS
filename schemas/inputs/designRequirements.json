@@ -1,0 +1,67 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/inputs/designRequirements.json",
+    "title": "designRequirements",
+    "description": "The requirements an analog IC must comply with. Built on the PEAS designRequirementsBase mixin, with a deviceType discriminator that aligns with AAS's top-level family discriminator, plus a small set of generic selection seeds. Unlike SAS, AAS keeps a single generic seed rather than an 11-branch per-family oneOf: analog-IC selection seeds are looser (a designer usually filters on family + a couple of headline specs), so a per-family required-ratings oneOf would add fields without adding coverage. Family-specific required ratings, if ever needed, can be added later as a deviceType-discriminated oneOf.",
+    "allOf": [
+        {
+            "$ref": "https://psma.com/peas/utils.json#/$defs/designRequirementsBase"
+        },
+        {
+            "type": "object",
+            "properties": {
+                "deviceType": {
+                    "description": "Required analog-IC family. Aligns with AAS's top-level family discriminator.",
+                    "type": "string",
+                    "enum": [
+                        "operationalAmplifier",
+                        "comparator",
+                        "instrumentationAmplifier",
+                        "differenceAmplifier",
+                        "programmableGainAmplifier",
+                        "buffer",
+                        "sampleHold",
+                        "analogSwitch",
+                        "multiplexer",
+                        "adc",
+                        "dac"
+                    ]
+                },
+                "minimumChannels": {
+                    "description": "Minimum number of channels the part must provide.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "supplyVoltage": {
+                    "description": "Total supply voltage available to the part, in V.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "maximumQuiescentCurrent": {
+                    "description": "Maximum acceptable quiescent current per channel, in A.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "maximumInputOffsetVoltage": {
+                    "description": "Maximum acceptable input offset voltage, in V (precision amplifier seeds).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "minimumBandwidth": {
+                    "description": "Minimum required signal bandwidth / GBW, in Hz (amplifier seeds).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "minimumResolution": {
+                    "description": "Minimum required resolution, in bits (converter seeds).",
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "required": [
+                "deviceType"
+            ]
+        }
+    ],
+    "$defs": {},
+    "unevaluatedProperties": false
+}

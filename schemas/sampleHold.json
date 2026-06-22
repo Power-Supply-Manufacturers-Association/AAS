@@ -1,0 +1,125 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/sampleHold.json",
+    "title": "sampleHold",
+    "description": "Sample-and-hold / track-and-hold amplifier component data. The presence of the 'sampleHold' field at the top level of an AAS document discriminates the family.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "sampleHoldManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "sampleHoldDatasheetInfo",
+            "description": "All information extracted from the sample-and-hold datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "sampleHoldElectrical",
+            "description": "S&H electricals: amplifierCommon core (in track mode the part is an amplifier) plus the hold-phase specs. Droop = leakage / C_H; for external-C_H parts droop depends on the user's capacitor, so holdCapacitor records whether C_H is internal or external. The hold step (pedestal) and aperture jitter are the dynamic-accuracy limits.",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "subType": {
+                            "description": "Sample-and-hold vs track-and-hold (used loosely / interchangeably in industry).",
+                            "type": "string",
+                            "enum": [ "sampleAndHold", "trackAndHold" ]
+                        },
+                        "acquisitionTime": {
+                            "description": "Hold-to-track acquisition time t_acq, in s.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "acquisitionAccuracy": {
+                            "description": "Error band to which acquisitionTime is specified, as a fraction (e.g. 0.001 = 0.1%).",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "droopRate": {
+                            "description": "Held-voltage droop rate in hold, in V/s.",
+                            "type": "number"
+                        },
+                        "holdCapacitor": {
+                            "description": "Whether the hold capacitor is on-chip or an external C_H pin.",
+                            "type": "string",
+                            "enum": [ "internal", "external" ]
+                        },
+                        "holdCapacitance": {
+                            "description": "Hold capacitance C_H, in F (internal parts; or the value at which droop/acquisition are specified for external parts).",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "apertureDelay": {
+                            "description": "Fixed clock-edge to sample-instant delay, in s.",
+                            "type": "number"
+                        },
+                        "apertureJitter": {
+                            "description": "Random sample-to-sample timing variation (rms), in s.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "holdStep": {
+                            "description": "Hold step / pedestal (charge injection onto C_H at track-to-hold), in V.",
+                            "type": "number"
+                        },
+                        "feedthrough": {
+                            "description": "Hold-mode input-to-output feedthrough at a stated frequency, in dB.",
+                            "type": "number"
+                        },
+                        "bandwidth": {
+                            "description": "Track-mode small-signal bandwidth, in Hz.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "gain": {
+                            "description": "Track-mode gain, in V/V (almost always +1).",
+                            "type": "number"
+                        },
+                        "switchTechnology": {
+                            "description": "Sampling-switch technology.",
+                            "type": "string",
+                            "enum": [ "CMOS", "FET", "diodeBridge", "bipolar" ]
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}

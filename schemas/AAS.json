@@ -1,0 +1,95 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/AAS.json",
+    "title": "AAS",
+    "description": "Analog Agnostic Structure (AAS). A document carries inputs, exactly one of {operationalAmplifier, comparator, instrumentationAmplifier, differenceAmplifier, programmableGainAmplifier, buffer, sampleHold, analogSwitch, multiplexer, adc, dac} (the field name is the discriminator), and outputs. AAS is the home for GENERIC analog/linear ICs that are not power-conversion control parts (those live in CTAS) and not discrete power semiconductors (those live in SAS). Structure mirrors SAS: the device family is discriminated by which top-level field is present, not by a deviceType property. Every valid AAS document is also a valid PEAS document (the `analog` branch).",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "inputs": {
+            "description": "Design requirements and operating points for this analog IC.",
+            "title": "inputs",
+            "$ref": "./inputs.json"
+        },
+        "operationalAmplifier": {
+            "description": "General-purpose / precision / high-speed operational amplifier.",
+            "title": "operationalAmplifier",
+            "$ref": "./operationalAmplifier.json"
+        },
+        "comparator": {
+            "description": "Voltage comparator.",
+            "title": "comparator",
+            "$ref": "./comparator.json"
+        },
+        "instrumentationAmplifier": {
+            "description": "Instrumentation amplifier (gain set by R_G / pin / digital).",
+            "title": "instrumentationAmplifier",
+            "$ref": "./instrumentationAmplifier.json"
+        },
+        "differenceAmplifier": {
+            "description": "Difference amplifier (fixed on-chip resistor-ratio gain; often extended common-mode range).",
+            "title": "differenceAmplifier",
+            "$ref": "./differenceAmplifier.json"
+        },
+        "programmableGainAmplifier": {
+            "description": "Programmable-gain amplifier / PGIA (digitally or pin selectable gain).",
+            "title": "programmableGainAmplifier",
+            "$ref": "./programmableGainAmplifier.json"
+        },
+        "buffer": {
+            "description": "Unity-gain / closed-loop buffer, line driver or high-current output buffer.",
+            "title": "buffer",
+            "$ref": "./buffer.json"
+        },
+        "sampleHold": {
+            "description": "Sample-and-hold / track-and-hold amplifier.",
+            "title": "sampleHold",
+            "$ref": "./sampleHold.json"
+        },
+        "analogSwitch": {
+            "description": "CMOS analog switch (SPST/SPDT/DPDT...).",
+            "title": "analogSwitch",
+            "$ref": "./analogSwitch.json"
+        },
+        "multiplexer": {
+            "description": "Analog multiplexer / demultiplexer.",
+            "title": "multiplexer",
+            "$ref": "./multiplexer.json"
+        },
+        "adc": {
+            "description": "Analog-to-digital converter.",
+            "title": "adc",
+            "$ref": "./adc.json"
+        },
+        "dac": {
+            "description": "Digital-to-analog converter.",
+            "title": "dac",
+            "$ref": "./dac.json"
+        },
+        "outputs": {
+            "description": "Computed results per operating point. outputs[i] aligns positionally with inputs.operatingPoints[i].",
+            "title": "outputs",
+            "type": "array",
+            "items": {
+                "$ref": "./outputs.json"
+            }
+        }
+    },
+    "anyOf": [
+        { "required": ["inputs", "outputs"] },
+        { "maxProperties": 1 }
+    ],
+    "oneOf": [
+        { "required": ["operationalAmplifier"] },
+        { "required": ["comparator"] },
+        { "required": ["instrumentationAmplifier"] },
+        { "required": ["differenceAmplifier"] },
+        { "required": ["programmableGainAmplifier"] },
+        { "required": ["buffer"] },
+        { "required": ["sampleHold"] },
+        { "required": ["analogSwitch"] },
+        { "required": ["multiplexer"] },
+        { "required": ["adc"] },
+        { "required": ["dac"] }
+    ]
+}

@@ -1,0 +1,326 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/utils.json",
+    "title": "AAS utils",
+    "description": "Shared sub-schemas reused by every AAS per-family document (operationalAmplifier, comparator, instrumentationAmplifier, differenceAmplifier, programmableGainAmplifier, buffer, sampleHold, analogSwitch, multiplexer, adc, dac). Identification (part/thermal/mechanical) mirrors the SAS pattern and reuses the PEAS datasheetInfo* bases. The electrical CORES (amplifierCommon, switchCore, converterDynamics) hold the parameters that genuinely recur across several families; each family file extends the relevant core by allOf and closes it with unevaluatedProperties:false, then adds its own family-specific electricals. Family-specific electricals that no other family shares live in the per-family files, exactly as SAS keeps per-device electricals out of utils.",
+    "$defs": {
+        "part": {
+            "title": "analogPart",
+            "description": "Part identification — shared across all analog-IC families. Extends the PEAS datasheetInfoPartBase.",
+            "allOf": [
+                {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/datasheetInfoPartBase"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "partNumber": {},
+                        "series": {},
+                        "case": {},
+                        "description": {},
+                        "package": {
+                            "type": "string",
+                            "description": "Manufacturer's exact package designation (e.g. 'SOT-23-5', 'MSOP-8'). Complements case, which holds the generic industry code."
+                        },
+                        "qualification": {
+                            "type": "string",
+                            "description": "Qualification grade (e.g. Industrial, Automotive (AEC-Q100))."
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "thermal": {
+            "title": "analogThermal",
+            "description": "Thermal section — extends the PEAS datasheetInfoThermal (operating-temperature range) with the junction-to-ambient resistance and absolute maximum dissipation common to packaged analog ICs.",
+            "allOf": [
+                {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/datasheetInfoThermal"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "operatingTemperature": {},
+                        "thermalResistanceJunctionAmbient": {
+                            "description": "Junction-to-ambient thermal resistance R_th(j-a), in K/W.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "maximumPowerDissipation": {
+                            "description": "Absolute maximum power dissipation at 25 C, in W.",
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "mechanical": {
+            "title": "analogMechanical",
+            "description": "Mechanical specs — extends PEAS datasheetInfoMechanical with a package case field.",
+            "allOf": [
+                {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/datasheetInfoMechanical"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "length": {},
+                        "width": {},
+                        "height": {},
+                        "diameter": {},
+                        "weight": {},
+                        "shapeType": {},
+                        "assemblyType": {},
+                        "case": {
+                            "type": "string",
+                            "description": "Package name (SOIC-8, SOT-23-5, etc.) — mirrors part.case for convenience."
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "supply": {
+            "title": "supply",
+            "description": "Power-supply operating window, shared by every family. The min/max span is the total (V+)-(V-); a part that runs off one rail sets dualSupply=false. Per-channel quiescent current is stored (device total = quiescentCurrentPerChannel x numberOfChannels) to avoid double-modelling a redundant total.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "minimumSupplyVoltage": {
+                    "description": "Minimum total operating supply voltage (V+)-(V-), in V.",
+                    "type": "number"
+                },
+                "maximumSupplyVoltage": {
+                    "description": "Maximum total operating supply voltage (V+)-(V-), in V.",
+                    "type": "number"
+                },
+                "dualSupply": {
+                    "description": "True if the part is specified for bipolar (dual, +/-) supplies; false if single-supply.",
+                    "type": "boolean"
+                },
+                "quiescentCurrentPerChannel": {
+                    "description": "No-load quiescent supply current per channel, in A.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "shutdownSupplyCurrent": {
+                    "description": "Supply current in shutdown/power-down, in A. Absent if the part has no shutdown.",
+                    "type": "number",
+                    "minimum": 0
+                }
+            }
+        },
+        "gainPoint": {
+            "title": "gainPoint",
+            "description": "One (gain, value) sample of a gain-dependent specification (e.g. -3 dB bandwidth or CMRR at a stated closed-loop gain). Used where a single scalar would be lossy because the spec varies strongly with gain (instrumentation amps, PGAs).",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gain": {
+                    "description": "Closed-loop gain at which the value is specified, in V/V.",
+                    "type": "number"
+                },
+                "value": {
+                    "description": "The specified value at this gain. Unit is fixed by the field that holds the array.",
+                    "type": "number"
+                }
+            },
+            "required": [
+                "gain",
+                "value"
+            ]
+        },
+        "amplifierCommon": {
+            "title": "amplifierCommon",
+            "description": "Electrical parameters shared by the linear-amplifier families (operationalAmplifier, instrumentationAmplifier, differenceAmplifier, programmableGainAmplifier, buffer). Open base: a family extends it by allOf and closes the composed object with unevaluatedProperties:false. Derivable quantities are deliberately omitted (no total supply current; no SINAD/ENOB).",
+            "type": "object",
+            "properties": {
+                "numberOfChannels": {
+                    "description": "Amplifiers (channels) per package.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "inputOffsetVoltage": {
+                    "description": "Input offset voltage V_OS (max), in V.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "inputOffsetVoltageDrift": {
+                    "description": "Input offset voltage drift dV_OS/dT, in V/K.",
+                    "type": "number"
+                },
+                "inputBiasCurrent": {
+                    "description": "Input bias current I_B, in A.",
+                    "type": "number"
+                },
+                "inputOffsetCurrent": {
+                    "description": "Input offset current I_OS, in A. Not derivable from I_B; kept separate.",
+                    "type": "number"
+                },
+                "commonModeRejectionRatio": {
+                    "description": "Common-mode rejection ratio CMRR, in dB.",
+                    "type": "number"
+                },
+                "powerSupplyRejectionRatio": {
+                    "description": "Power-supply rejection ratio PSRR, in dB.",
+                    "type": "number"
+                },
+                "slewRate": {
+                    "description": "Output slew rate SR, in V/s.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "voltageNoiseDensity": {
+                    "description": "Input-referred voltage noise density e_n, in V/sqrt(Hz).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "voltageNoiseDensityFrequency": {
+                    "description": "Frequency at which voltageNoiseDensity is specified, in Hz (typically 1000).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "supply": {
+                    "$ref": "#/$defs/supply"
+                }
+            }
+        },
+        "switchCore": {
+            "title": "switchCore",
+            "description": "Electrical parameters shared identically by the analogSwitch and multiplexer families (distributors sell them in one category with one filter schema). Open base: each extends it by allOf + unevaluatedProperties:false. The mux family adds only channel-count / mux-ratio / break-before-make on top.",
+            "type": "object",
+            "properties": {
+                "onResistance": {
+                    "description": "On-resistance R_ON (max), in Ohm.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "onResistanceFlatness": {
+                    "description": "On-resistance flatness: max-min R_ON over the signal range, in Ohm. Distinct from match.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "onResistanceMatch": {
+                    "description": "On-resistance match between channels in one package, in Ohm. Distinct from flatness.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "offLeakageCurrent": {
+                    "description": "Source/drain OFF-state leakage current, in A.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "chargeInjection": {
+                    "description": "Charge injected onto the load when the switch toggles Q_INJ, in C.",
+                    "type": "number"
+                },
+                "turnOnTime": {
+                    "description": "Control-edge to switch-closed time t_ON, in s.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "turnOffTime": {
+                    "description": "Control-edge to switch-open time t_OFF, in s.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "offIsolation": {
+                    "description": "Off-isolation (signal attenuation through an open switch) at a stated frequency, in dB.",
+                    "type": "number"
+                },
+                "crosstalk": {
+                    "description": "Channel-to-channel crosstalk at a stated frequency, in dB.",
+                    "type": "number"
+                },
+                "bandwidth": {
+                    "description": "-3 dB on-path bandwidth, in Hz.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "signalRange": {
+                    "description": "Allowed switched-signal range, in V.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "controlLogic": {
+                    "$ref": "#/$defs/logicFamily"
+                },
+                "supply": {
+                    "$ref": "#/$defs/supply"
+                }
+            }
+        },
+        "converterDynamics": {
+            "title": "converterDynamics",
+            "description": "AC/dynamic performance shared by ADC and DAC families. Only the independent metrics are stored: SNR, THD and SFDR. SINAD = power-sum(SNR, THD) and ENOB = (SINAD - 1.76)/6.02 are DERIVED and never stored. SFDR is kept because the worst spur need not be a harmonic captured by THD.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "signalToNoiseRatio": {
+                    "description": "Signal-to-noise ratio SNR (harmonics excluded), in dB.",
+                    "type": "number"
+                },
+                "totalHarmonicDistortion": {
+                    "description": "Total harmonic distortion THD, in dB.",
+                    "type": "number"
+                },
+                "spuriousFreeDynamicRange": {
+                    "description": "Spurious-free dynamic range SFDR, in dB.",
+                    "type": "number"
+                },
+                "measurementFrequency": {
+                    "description": "Input/output signal frequency at which SNR/THD/SFDR are specified, in Hz.",
+                    "type": "number",
+                    "minimum": 0
+                }
+            }
+        },
+        "logicFamily": {
+            "title": "logicFamily",
+            "description": "Control-pin logic compatibility.",
+            "type": "string",
+            "enum": [
+                "CMOS",
+                "TTL",
+                "TTL/CMOS"
+            ]
+        },
+        "digitalInterface": {
+            "title": "digitalInterface",
+            "description": "Host digital control/data interface of a programmable analog IC (PGA, ADC, DAC). An array because some parts offer more than one (e.g. parallel or pin-strap).",
+            "type": "string",
+            "enum": [
+                "SPI",
+                "I2C",
+                "parallel",
+                "microwire",
+                "pinStrap",
+                "serialLVDS",
+                "parallelLVDS",
+                "JESD204"
+            ]
+        },
+        "referenceSource": {
+            "title": "referenceSource",
+            "description": "Voltage-reference source for a data converter.",
+            "type": "string",
+            "enum": [
+                "internal",
+                "external",
+                "supply"
+            ]
+        },
+        "inputType": {
+            "title": "inputType",
+            "description": "Analog input/output signal configuration for converters and switches.",
+            "type": "string",
+            "enum": [
+                "singleEnded",
+                "differential",
+                "pseudoDifferential"
+            ]
+        }
+    }
+}

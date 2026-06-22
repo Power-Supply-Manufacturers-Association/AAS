@@ -1,0 +1,112 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/buffer.json",
+    "title": "buffer",
+    "description": "Buffer / line-driver component data (unity-gain buffer, closed-loop buffer, high-current line driver, video buffer, differential driver). The presence of the 'buffer' field at the top level of an AAS document discriminates the family.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "bufferManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "bufferDatasheetInfo",
+            "description": "All information extracted from the buffer / line-driver datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "bufferElectrical",
+            "description": "Buffer electricals: amplifierCommon core plus output-drive and the gain configuration (gain is nominally unity, so it is an enum + optional fixed value rather than a free parameter).",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "bufferType": {
+                            "description": "Buffer subclass.",
+                            "type": "string",
+                            "enum": [ "openLoopBuffer", "closedLoopBuffer", "lineDriver", "videoBuffer", "differentialDriver", "powerBuffer" ]
+                        },
+                        "bandwidth": {
+                            "description": "Small-signal -3 dB bandwidth, in Hz.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "gainConfiguration": {
+                            "description": "Gain configuration (buffers are nominally unity-gain).",
+                            "type": "string",
+                            "enum": [ "fixedUnity", "fixedGain", "adjustableGain" ]
+                        },
+                        "fixedGainValue": {
+                            "description": "Fixed gain, in V/V (for fixedGain parts, e.g. +2 video buffers).",
+                            "type": "number"
+                        },
+                        "continuousOutputCurrent": {
+                            "description": "Continuous output drive current, in A.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "peakOutputCurrent": {
+                            "description": "Peak / short-circuit output current, in A.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "outputImpedance": {
+                            "description": "Small-signal output impedance, in Ohm.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "adjustableCurrentLimit": {
+                            "description": "True if the output current limit is pin-programmable.",
+                            "type": "boolean"
+                        },
+                        "outputType": {
+                            "description": "Output configuration.",
+                            "type": "string",
+                            "enum": [ "singleEnded", "differential", "complementary" ]
+                        },
+                        "thermalShutdown": {
+                            "description": "True if the part has internal thermal-shutdown protection.",
+                            "type": "boolean"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}

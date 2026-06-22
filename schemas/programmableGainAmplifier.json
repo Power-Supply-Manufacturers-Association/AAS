@@ -1,0 +1,101 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/programmableGainAmplifier.json",
+    "title": "programmableGainAmplifier",
+    "description": "Programmable-gain amplifier (PGA / PGIA) component data. The presence of the 'programmableGainAmplifier' field at the top level of an AAS document discriminates the family.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "programmableGainAmplifierManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "programmableGainAmplifierDatasheetInfo",
+            "description": "All information extracted from the PGA datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "programmableGainAmplifierElectrical",
+            "description": "PGA electricals: amplifierCommon core plus the discrete gain set, its programming interface and optional input mux. Gain is achieved by a switched-resistor ladder, so the achievable values are the enumerated gainValues (min/max/count are derived from it). Bandwidth varies per gain, so it is stored as a (gain, value) array. CMRR-vs-gain is null for op-amp-style PGAs that do not specify it.",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "gainValues": {
+                            "description": "Discrete selectable gains, in V/V (the achievable ladder values).",
+                            "type": "array",
+                            "items": { "type": "number" },
+                            "minItems": 1
+                        },
+                        "gainProgression": {
+                            "description": "How the gain steps progress.",
+                            "type": "string",
+                            "enum": [ "binary", "decade", "scope", "arbitrary" ]
+                        },
+                        "digitalInterface": {
+                            "description": "Control interface(s). An array because some parts offer more than one.",
+                            "type": "array",
+                            "items": { "$ref": "./utils.json#/$defs/digitalInterface" }
+                        },
+                        "inputMultiplexerChannels": {
+                            "description": "Number of inputs selectable by the integrated mux (1 if no input mux).",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "bandwidthVsGain": {
+                            "description": "Small-signal -3 dB bandwidth at each gain; value in Hz.",
+                            "type": "array",
+                            "items": { "$ref": "./utils.json#/$defs/gainPoint" }
+                        },
+                        "commonModeRejectionRatioVsGain": {
+                            "description": "CMRR at each gain (PGIA types); value in dB. Absent for op-amp-style PGAs.",
+                            "type": "array",
+                            "items": { "$ref": "./utils.json#/$defs/gainPoint" }
+                        },
+                        "architecture": {
+                            "description": "Whether the part is an op-amp-based PGA or a programmable instrumentation amp (PGIA).",
+                            "type": "string",
+                            "enum": [ "opAmpPga", "instrumentationPga" ]
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}

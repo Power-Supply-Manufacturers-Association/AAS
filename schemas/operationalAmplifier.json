@@ -1,0 +1,120 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/operationalAmplifier.json",
+    "title": "operationalAmplifier",
+    "description": "Operational amplifier component data. The presence of the 'operationalAmplifier' field at the top level of an AAS document discriminates the family.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "operationalAmplifierManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "operationalAmplifierDatasheetInfo",
+            "description": "All information extracted from the op-amp datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "operationalAmplifierElectrical",
+            "description": "Op-amp electricals: the shared amplifierCommon DC/noise/supply core plus op-amp-specific dynamics. Rail-to-rail input/output are kept as booleans (the parametric-search filters); the underlying V_CM range / output swing are not separately modelled to avoid redundancy. GBW and unity-gain bandwidth are the same quantity for unity-gain-stable VFAs and are stored once as gainBandwidthProduct.",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "gainBandwidthProduct": {
+                            "description": "Gain-bandwidth product GBW (= unity-gain bandwidth for a unity-gain-stable VFA), in Hz.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "openLoopGain": {
+                            "description": "DC open-loop voltage gain A_OL, in dB.",
+                            "type": "number"
+                        },
+                        "outputCurrent": {
+                            "description": "Rated output drive current per channel, in A.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "architecture": {
+                            "description": "Functional architecture / family.",
+                            "type": "string",
+                            "enum": [
+                                "generalPurpose",
+                                "precision",
+                                "lowNoise",
+                                "lowPower",
+                                "highSpeed",
+                                "zeroDrift",
+                                "currentFeedback",
+                                "fullyDifferential",
+                                "transimpedance"
+                            ]
+                        },
+                        "inputStage": {
+                            "description": "Input-stage process technology.",
+                            "type": "string",
+                            "enum": [ "CMOS", "JFET", "bipolar", "BiCMOS" ]
+                        },
+                        "railToRailInput": {
+                            "description": "True if the common-mode input range spans both rails.",
+                            "type": "boolean"
+                        },
+                        "railToRailOutput": {
+                            "description": "True if the output swings to within tens of mV of both rails.",
+                            "type": "boolean"
+                        },
+                        "unityGainStable": {
+                            "description": "True if stable at unity gain. False parts state a minimum stable gain.",
+                            "type": "boolean"
+                        },
+                        "minimumStableGain": {
+                            "description": "Minimum closed-loop gain for stability, in V/V (only for non-unity-gain-stable parts).",
+                            "type": "number",
+                            "minimum": 1
+                        },
+                        "hasShutdown": {
+                            "description": "True if the part has a shutdown / enable pin.",
+                            "type": "boolean"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}

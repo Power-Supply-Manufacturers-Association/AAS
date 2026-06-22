@@ -1,0 +1,51 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/inputs.json",
+    "title": "inputs",
+    "description": "Inputs used to select or evaluate an analog IC. Mirrors the SAS / CTAS inputs structure: a required designRequirements seed plus optional operatingPoints (the conditions under which the part's own dissipation / junction temperature are evaluated). outputs[i] aligns positionally with operatingPoints[i].",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "designRequirements"
+    ],
+    "properties": {
+        "designRequirements": {
+            "$ref": "./inputs/designRequirements.json"
+        },
+        "operatingPoints": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/operatingPoint"
+            }
+        }
+    },
+    "$defs": {
+        "operatingPoint": {
+            "description": "One operating condition relevant to the analog IC's own dissipation and thermal state.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ambientTemperature": {
+                    "description": "Ambient temperature, in degC.",
+                    "type": "number"
+                },
+                "supplyVoltage": {
+                    "description": "Total supply voltage (V+)-(V-) at this point, in V.",
+                    "type": "number"
+                },
+                "signalFrequency": {
+                    "description": "Signal / sampling frequency at this point, in Hz.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "loadCurrent": {
+                    "description": "Output load current drawn at this point, in A.",
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

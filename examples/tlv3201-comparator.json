@@ -1,0 +1,48 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "fast rail-to-rail comparator for overcurrent trip",
+            "deviceType": "comparator",
+            "minimumChannels": 1,
+            "supplyVoltage": { "minimum": 2.7, "maximum": 5.5, "unit": "V" }
+        }
+    },
+    "comparator": {
+        "manufacturerInfo": {
+            "name": "Texas Instruments",
+            "reference": "TLV3201",
+            "status": "production",
+            "datasheetUrl": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "TLV3201AIDBVR",
+                    "case": "SOT-23-5",
+                    "description": "40ns rail-to-rail push-pull output comparator"
+                },
+                "electrical": {
+                    "numberOfChannels": 1,
+                    "propagationDelay": 4e-8,
+                    "propagationDelayOverdrive": 0.02,
+                    "propagationDelayLoadCapacitance": 1.5e-11,
+                    "inputOffsetVoltage": 3e-3,
+                    "inputBiasCurrent": 1e-12,
+                    "hysteresis": 1.2e-3,
+                    "outputStage": "pushPull",
+                    "commonModeVoltageRange": { "minimum": -0.2, "maximum": 5.7, "unit": "V" },
+                    "type": "highSpeed",
+                    "hasLatch": false,
+                    "supply": {
+                        "minimumSupplyVoltage": 2.7,
+                        "maximumSupplyVoltage": 5.5,
+                        "dualSupply": false,
+                        "quiescentCurrentPerChannel": 4e-5
+                    }
+                },
+                "thermal": {
+                    "operatingTemperature": { "minimum": -40, "maximum": 125, "unit": "degC" }
+                }
+            }
+        }
+    },
+    "outputs": []
+}

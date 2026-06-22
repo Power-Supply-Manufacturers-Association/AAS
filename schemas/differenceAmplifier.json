@@ -1,0 +1,106 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/differenceAmplifier.json",
+    "title": "differenceAmplifier",
+    "description": "Difference-amplifier component data. The presence of the 'differenceAmplifier' field at the top level of an AAS document discriminates the family. Distinguished from an instrumentation amp by a FIXED on-chip resistor-ratio gain (no R_G pin, no gain equation) and a common-mode range that can far exceed the supply rails.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "differenceAmplifierManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "differenceAmplifierDatasheetInfo",
+            "description": "All information extracted from the difference-amplifier datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "differenceAmplifierElectrical",
+            "description": "Difference-amp electricals: amplifierCommon core plus a fixed gain (or a small set of pin-selectable gains), the resistor-match-limited gain error, and the wide input common-mode range that defines the family.",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "gain": {
+                            "description": "Fixed nominal gain G, in V/V (e.g. 0.2, 0.5, 1, 2).",
+                            "type": "number"
+                        },
+                        "gainConfigurability": {
+                            "description": "Whether the gain is fixed or pin-selectable from gainOptions.",
+                            "type": "string",
+                            "enum": [ "fixed", "pinSelectable" ]
+                        },
+                        "gainOptions": {
+                            "description": "Discrete pin-selectable gains, in V/V (pin-selectable parts only).",
+                            "type": "array",
+                            "items": { "type": "number" }
+                        },
+                        "gainError": {
+                            "description": "Gain error as a fraction (e.g. 0.0005 = 0.05%).",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "gainErrorDrift": {
+                            "description": "Gain error drift, in 1/K (e.g. 1e-6 = 1 ppm/degC).",
+                            "type": "number"
+                        },
+                        "bandwidth": {
+                            "description": "Small-signal -3 dB bandwidth, in Hz.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "inputCommonModeVoltageRange": {
+                            "description": "Input common-mode voltage range, in V. May far exceed the supply rails (e.g. +/-200 V on a +/-15 V supply).",
+                            "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                        },
+                        "inputOverloadVoltage": {
+                            "description": "Maximum survivable input voltage (ruggedness), in V.",
+                            "type": "number"
+                        },
+                        "outputType": {
+                            "description": "Output configuration.",
+                            "type": "string",
+                            "enum": [ "singleEnded", "differential" ]
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}

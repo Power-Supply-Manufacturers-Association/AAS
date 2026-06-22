@@ -1,0 +1,52 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "low-Ron SPDT for signal routing",
+            "deviceType": "analogSwitch",
+            "minimumChannels": 1,
+            "supplyVoltage": { "minimum": 8, "maximum": 40, "unit": "V" }
+        }
+    },
+    "analogSwitch": {
+        "manufacturerInfo": {
+            "name": "Analog Devices",
+            "reference": "ADG1419",
+            "status": "production",
+            "datasheetUrl": "https://www.analog.com/media/en/technical-documentation/data-sheets/adg1419.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "ADG1419BRMZ",
+                    "case": "MSOP-8",
+                    "description": "2.1 Ohm on-resistance, +/-15V/+12V iCMOS SPDT analog switch"
+                },
+                "electrical": {
+                    "onResistance": 2.4,
+                    "onResistanceFlatness": 0.4,
+                    "onResistanceMatch": 0.05,
+                    "offLeakageCurrent": 5e-10,
+                    "chargeInjection": -1.6e-11,
+                    "turnOnTime": 8.5e-8,
+                    "turnOffTime": 1.15e-7,
+                    "offIsolation": -64,
+                    "crosstalk": -64,
+                    "bandwidth": 135000000,
+                    "signalRange": { "minimum": -15, "maximum": 15, "unit": "V" },
+                    "controlLogic": "CMOS",
+                    "supply": {
+                        "minimumSupplyVoltage": 8,
+                        "maximumSupplyVoltage": 40,
+                        "dualSupply": true,
+                        "quiescentCurrentPerChannel": 1e-6
+                    },
+                    "switchConfiguration": "SPDT",
+                    "numberOfSwitches": 1,
+                    "totalHarmonicDistortion": -76
+                },
+                "thermal": {
+                    "operatingTemperature": { "minimum": -40, "maximum": 125, "unit": "degC" }
+                }
+            }
+        }
+    },
+    "outputs": []
+}

@@ -1,0 +1,139 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/dac.json",
+    "title": "dac",
+    "description": "Digital-to-analog converter component data. The presence of the 'dac' field at the top level of an AAS document discriminates the family.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "dacManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "dacDatasheetInfo",
+            "description": "All information extracted from the DAC datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "dacElectrical",
+            "description": "DAC electricals. The DC set (INL/DNL/settling/monotonicity) applies to all parts; the AC trio (SNR/THD/SFDR in the shared converterDynamics block) is present only on high-speed / RF DACs, and SINAD/ENOB are derived, not stored.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "resolution": {
+                    "description": "Resolution, in bits.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "numberOfChannels": {
+                    "description": "Number of independent DAC output channels.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "architecture": {
+                    "description": "Conversion architecture.",
+                    "type": "string",
+                    "enum": [ "stringDac", "r2r", "multiplying", "sigmaDelta", "segmented", "currentSteering" ]
+                },
+                "outputType": {
+                    "description": "Output stage type.",
+                    "type": "string",
+                    "enum": [ "voltageBuffered", "voltageUnbuffered", "current" ]
+                },
+                "settlingTime": {
+                    "description": "Output settling time to the stated accuracy, in s.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "updateRate": {
+                    "description": "Maximum code-update / conversion rate, in samples per second (Hz).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "integralNonlinearity": {
+                    "description": "Integral nonlinearity INL, in LSB.",
+                    "type": "number"
+                },
+                "differentialNonlinearity": {
+                    "description": "Differential nonlinearity DNL, in LSB.",
+                    "type": "number"
+                },
+                "guaranteedMonotonic": {
+                    "description": "True if monotonicity is guaranteed over the operating range.",
+                    "type": "boolean"
+                },
+                "gainError": {
+                    "description": "Gain error, as a fraction of full scale.",
+                    "type": "number"
+                },
+                "dynamics": {
+                    "description": "AC dynamic performance (SNR/THD/SFDR). Present on high-speed / RF DACs; absent on precision string DACs.",
+                    "$ref": "./utils.json#/$defs/converterDynamics"
+                },
+                "referenceSource": { "$ref": "./utils.json#/$defs/referenceSource" },
+                "referenceVoltage": {
+                    "description": "Reference voltage (internal or nominal external), in V.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "digitalInterface": {
+                    "description": "Host data interface(s).",
+                    "type": "array",
+                    "items": { "$ref": "./utils.json#/$defs/digitalInterface" }
+                },
+                "supply": {
+                    "description": "Analog supply rail.",
+                    "$ref": "./utils.json#/$defs/supply"
+                },
+                "digitalSupplyVoltage": {
+                    "description": "Digital / IO supply voltage, in V.",
+                    "type": "number"
+                },
+                "powerConsumption": {
+                    "description": "Total power consumption, in W.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "hasEeprom": {
+                    "description": "True if the part has on-chip nonvolatile (EEPROM) code/config storage.",
+                    "type": "boolean"
+                }
+            },
+            "required": [ "resolution", "architecture" ]
+        }
+    }
+}

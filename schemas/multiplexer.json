@@ -1,0 +1,89 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/multiplexer.json",
+    "title": "multiplexer",
+    "description": "Analog multiplexer / demultiplexer component data. The presence of the 'multiplexer' field at the top level of an AAS document discriminates the family. Shares the analog-switch electrical core; adds only channel count, mux ratio and break-before-make timing.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "multiplexerManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": [ "name", "datasheetInfo" ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        }
+    },
+    "anyOf": [
+        { "required": ["manufacturerInfo"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "multiplexerDatasheetInfo",
+            "description": "All information extracted from the multiplexer datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": [ "part", "electrical" ]
+        },
+        "electrical": {
+            "title": "multiplexerElectrical",
+            "description": "Multiplexer electricals: the shared switchCore plus the mux-only fields (channel count, mux configuration, signal configuration, break-before-make and transition timing).",
+            "allOf": [
+                { "$ref": "./utils.json#/$defs/switchCore" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "multiplexerConfiguration": {
+                            "description": "Mux ratio / configuration string (e.g. '4:1', '8:1', '16:1', 'dual 4:1', 'differential 8:1').",
+                            "type": "string"
+                        },
+                        "numberOfChannels": {
+                            "description": "Number of selectable input channels (single-ended count; differential variants halve it).",
+                            "type": "integer",
+                            "minimum": 2
+                        },
+                        "signalConfiguration": {
+                            "description": "Single-ended vs differential channel grouping.",
+                            "$ref": "./utils.json#/$defs/inputType"
+                        },
+                        "breakBeforeMakeTime": {
+                            "description": "Break-before-make dead time t_BBM, in s.",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "transitionTime": {
+                            "description": "Address-change to settled-output transition time, in s.",
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "required": [ "multiplexerConfiguration" ]
+                }
+            ],
+            "unevaluatedProperties": false
+        }
+    }
+}
