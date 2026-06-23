@@ -66,6 +66,21 @@
             "title": "dac",
             "$ref": "./dac.json"
         },
+        "multiplier": {
+            "description": "Analog multiplier (ideal behavioural block).",
+            "title": "multiplier",
+            "$ref": "./multiplier.json"
+        },
+        "integrator": {
+            "description": "Analog integrator / loop compensator (ideal behavioural block).",
+            "title": "integrator",
+            "$ref": "./integrator.json"
+        },
+        "summer": {
+            "description": "Analog weighted summer / difference (ideal behavioural block).",
+            "title": "summer",
+            "$ref": "./summer.json"
+        },
         "outputs": {
             "description": "Computed results per operating point. outputs[i] aligns positionally with inputs.operatingPoints[i].",
             "title": "outputs",
@@ -90,6 +105,9 @@
         { "required": ["analogSwitch"] },
         { "required": ["multiplexer"] },
         { "required": ["adc"] },
-        { "required": ["dac"] }
+        { "required": ["dac"] },
+        { "required": ["multiplier"] },
+        { "required": ["integrator"] },
+        { "required": ["summer"] }
     ]
 }

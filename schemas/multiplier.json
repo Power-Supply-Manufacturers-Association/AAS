@@ -1,0 +1,29 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/multiplier.json",
+    "title": "multiplier",
+    "description": "Analog multiplier. Modelled as a simulator-agnostic IDEAL behavioural block (out = gain·V(inA)·V(inB)) — a control-computing primitive rather than a parametric part catalog. The presence of the 'multiplier' field at the top level discriminates the family. Pins: inA, inB, out.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "behavioral": { "$ref": "#/$defs/behavioral" }
+    },
+    "anyOf": [
+        { "required": ["behavioral"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "behavioral": {
+            "title": "multiplierBehavioral",
+            "description": "Ideal four-quadrant multiply: out = gain·V(inA)·V(inB).",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gain": {
+                    "description": "Output scale factor (1/V); out = gain·V(inA)·V(inB).",
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

@@ -24,7 +24,10 @@
                         "analogSwitch",
                         "multiplexer",
                         "adc",
-                        "dac"
+                        "dac",
+                        "multiplier",
+                        "integrator",
+                        "summer"
                     ]
                 },
                 "minimumChannels": {

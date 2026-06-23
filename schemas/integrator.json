@@ -1,0 +1,30 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/integrator.json",
+    "title": "integrator",
+    "description": "Analog integrator / loop compensator. Modelled as a simulator-agnostic IDEAL behavioural block (out = clamp(initial + gain·∫(in − reference)dt, outputLow, outputHigh)) — a control-computing primitive rather than a parametric part catalog. The presence of the 'integrator' field at the top level discriminates the family. Pins: in, out.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "behavioral": { "$ref": "#/$defs/behavioral" }
+    },
+    "anyOf": [
+        { "required": ["behavioral"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "behavioral": {
+            "title": "integratorBehavioral",
+            "description": "out = clamp(initial + gain·∫(V(in) − reference)dt, outputLow, outputHigh).",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gain":       { "description": "Integral gain (1/s).", "type": "number" },
+                "initial":    { "description": "Initial output value (at t=0).", "type": "number" },
+                "reference":  { "description": "Setpoint subtracted from the input before integrating.", "type": "number" },
+                "outputLow":  { "description": "Output clamp lower limit (anti-windup).", "type": "number" },
+                "outputHigh": { "description": "Output clamp upper limit (anti-windup).", "type": "number" }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "ideal integrator / loop compensator (behavioural model, not a catalog part)",
+            "deviceType": "integrator"
+        }
+    },
+    "integrator": {
+        "behavioral": {
+            "gain": 3.0,
+            "initial": 0.998,
+            "reference": 4.0,
+            "outputLow": 0.99,
+            "outputHigh": 0.99995
+        }
+    },
+    "outputs": []
+}

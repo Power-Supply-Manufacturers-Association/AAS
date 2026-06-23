@@ -1,0 +1,15 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "ideal weighted summer / difference (behavioural model, not a catalog part)",
+            "deviceType": "summer"
+        }
+    },
+    "summer": {
+        "behavioral": {
+            "gainA": 1.0,
+            "gainB": -0.9986
+        }
+    },
+    "outputs": []
+}

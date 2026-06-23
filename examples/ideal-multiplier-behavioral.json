@@ -1,0 +1,14 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "ideal analog multiplier (behavioural model, not a catalog part)",
+            "deviceType": "multiplier"
+        }
+    },
+    "multiplier": {
+        "behavioral": {
+            "gain": 1.0
+        }
+    },
+    "outputs": []
+}

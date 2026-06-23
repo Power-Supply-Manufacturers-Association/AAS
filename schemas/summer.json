@@ -1,0 +1,27 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/summer.json",
+    "title": "summer",
+    "description": "Analog weighted summer / difference amplifier. Modelled as a simulator-agnostic IDEAL behavioural block (out = gainA·V(inA) + gainB·V(inB)) — a control-computing primitive rather than a parametric part catalog. With gainB negative it is a difference (e.g. a control error). The presence of the 'summer' field at the top level discriminates the family. Pins: inA, inB, out.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "behavioral": { "$ref": "#/$defs/behavioral" }
+    },
+    "anyOf": [
+        { "required": ["behavioral"] },
+        { "maxProperties": 0 }
+    ],
+    "$defs": {
+        "behavioral": {
+            "title": "summerBehavioral",
+            "description": "out = gainA·V(inA) + gainB·V(inB).",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gainA": { "description": "Weight on input A.", "type": "number" },
+                "gainB": { "description": "Weight on input B (negative -> a difference).", "type": "number" }
+            }
+        }
+    }
+}
