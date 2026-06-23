@@ -1,0 +1,17 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "ideal comparator control block (behavioural model, not a catalog part)",
+            "deviceType": "comparator"
+        }
+    },
+    "comparator": {
+        "behavioral": {
+            "outputHigh": 5.0,
+            "outputLow": 0.0,
+            "threshold": 0.0,
+            "hysteresis": 0.005
+        }
+    },
+    "outputs": []
+}

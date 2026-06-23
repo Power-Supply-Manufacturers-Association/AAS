@@ -28,13 +28,41 @@
             "description": "Where to buy this component.",
             "type": "array",
             "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
-        }
+        },
+        "behavioral": { "$ref": "#/$defs/behavioral" }
     },
     "anyOf": [
         { "required": ["manufacturerInfo"] },
+        { "required": ["behavioral"] },
         { "maxProperties": 0 }
     ],
     "$defs": {
+        "behavioral": {
+            "title": "comparatorBehavioral",
+            "description": "Simulator-agnostic IDEAL behavioural model of the comparator, for circuit simulation — distinct from the datasheet `electrical` selection parameters. A backend realises it as a thresholded, hysteretic switch: out = (V(inPlus) - V(inMinus) > threshold, with a ±hysteresis band) ? outputHigh : outputLow. Present on an otherwise part-less document to describe an ideal control block.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "outputHigh": {
+                    "description": "Output high-rail voltage, in V (logic/gate-drive high).",
+                    "type": "number"
+                },
+                "outputLow": {
+                    "description": "Output low-rail voltage, in V (logic/gate-drive low).",
+                    "type": "number"
+                },
+                "threshold": {
+                    "description": "Trip point on the differential input (inPlus - inMinus), in V.",
+                    "type": "number"
+                },
+                "hysteresis": {
+                    "description": "Half-width of the hysteresis band around the trip point, in V. 0 (or absent) is an ideal zero-hysteresis comparator.",
+                    "type": "number",
+                    "minimum": 0
+                }
+            },
+            "required": [ "outputHigh", "outputLow" ]
+        },
         "datasheetInfo": {
             "title": "comparatorDatasheetInfo",
             "description": "All information extracted from the comparator datasheet.",

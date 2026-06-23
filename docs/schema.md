@@ -45,6 +45,10 @@ Every family file has the same outer shape (mirroring SAS `mosfet.json`):
 
 **comparator** (standalone) = `numberOfChannels`, `propagationDelay` (req) + `propagationDelayOverdrive` + `propagationDelayLoadCapacitance`, `inputOffsetVoltage`, `inputBiasCurrent`, `hysteresis` (absent = none), `outputStage` (pushPull/openDrain/openCollector/complementary), `commonModeVoltageRange`, `type` (generalPurpose/lowPower/highSpeed/precision/window), `hasLatch`, `supply`.
 
+## Ideal behavioural model (`comparator.behavioral`)
+
+Separate from the datasheet `electrical` selection parameters, a comparator may carry an optional, simulator-agnostic **`behavioral`** block describing an *ideal* control block for circuit simulation — a thresholded, hysteretic switch `out = (V(inPlus) - V(inMinus) > threshold ± hysteresis) ? outputHigh : outputLow`. Fields: `outputHigh` (req), `outputLow` (req), `threshold` (default 0), `hysteresis` (half-width, default 0). A document may carry `behavioral` **without** `manufacturerInfo` (an ideal block, not a catalog part). A simulator backend realises it natively (ngspice: a controlled switch with `Vt`/`Vh`); see `examples/ideal-comparator-behavioral.json`. The mirror on the controller side is `CTAS controller.behavioral`.
+
 **instrumentationAmplifier** = `amplifierCommon` + `gainSetMethod` (req: singleResistor/fixed/pinProgrammable/digitallyProgrammable), `gainEquationConstant` (k in G=1+k/R_G), `minimumGain`/`maximumGain`, `bandwidthVsGain[]` & `commonModeRejectionRatioVsGain[]` (`gainPoint` arrays), `outputOffsetVoltage`, `inputCommonModeVoltageRange`, `architecture` (threeOpAmp/twoOpAmp/currentFeedback/zeroDrift).
 
 **differenceAmplifier** = `amplifierCommon` + `gain` (req, fixed), `gainConfigurability` (fixed/pinSelectable), `gainOptions[]`, `gainError` (fraction), `gainErrorDrift` (1/K), `bandwidth`, `inputCommonModeVoltageRange` (may exceed rails), `inputOverloadVoltage`, `outputType` (singleEnded/differential).
