@@ -42,10 +42,12 @@ json aas_to_cias(const json& peas, const PEAS::Fidelity& /*fidelity*/, const std
         return single_atom_leaf(name, "comparator", a.at("comparator"), {"inPlus", "inMinus", "out"});
     if (a.contains("multiplier"))
         return single_atom_leaf(name, "multiplier", a.at("multiplier"), {"inA", "inB", "out"});
+    if (a.contains("summer"))
+        return single_atom_leaf(name, "summer", a.at("summer"), {"inA", "inB", "out"});
     if (a.contains("integrator"))
         return single_atom_leaf(name, "integrator", a.at("integrator"), {"in", "out"});
     throw std::runtime_error("aas_to_cias: analog document has no supported block "
-                             "(comparator / multiplier / integrator)");
+                             "(comparator / multiplier / integrator / summer)");
 }
 
 } // namespace AAS
