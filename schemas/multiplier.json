@@ -2,17 +2,92 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://psma.com/aas/multiplier.json",
     "title": "multiplier",
-    "description": "Analog multiplier. Modelled as a simulator-agnostic IDEAL behavioural block (out = gain·V(inA)·V(inB)) — a control-computing primitive rather than a parametric part catalog. The presence of the 'multiplier' field at the top level discriminates the family. Pins: inA, inB, out.",
+    "description": "Analog multiplier. Supports two complementary layers: (1) a parametric part catalog (manufacturerInfo.datasheetInfo) for real four-quadrant analog-multiplier ICs (e.g. AD633, MPY634) used in power electronics for PFC current-reference shaping and power/RMS computation; (2) a simulator-agnostic IDEAL behavioural block (out = gain·V(inA)·V(inB)) for control modelling. The presence of the 'multiplier' field at the top level discriminates the family. Pins: inA, inB, out.",
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "manufacturerInfo": {
+            "title": "multiplierManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
+                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
+                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
+                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
+                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
+                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
+                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
+                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
+                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
+                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+            },
+            "required": ["name", "datasheetInfo"]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component",
+            "type": "array",
+            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+        },
         "behavioral": { "$ref": "#/$defs/behavioral" }
     },
     "anyOf": [
+        { "required": ["manufacturerInfo"] },
         { "required": ["behavioral"] },
         { "maxProperties": 0 }
     ],
     "$defs": {
+        "datasheetInfo": {
+            "title": "multiplierDatasheetInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": { "$ref": "./utils.json#/$defs/part" },
+                "electrical": { "$ref": "#/$defs/electrical" },
+                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
+                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+            },
+            "required": ["part", "electrical"]
+        },
+        "electrical": {
+            "title": "multiplierElectrical",
+            "description": "Four-quadrant analog-multiplier electricals. Transfer function out = V(inA)·V(inB)/scaleFactor.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numberOfChannels": {
+                    "description": "Multipliers per package.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "numberOfQuadrants": {
+                    "description": "Multiplication quadrants: 1 (single-quadrant, unipolar inputs), 2 (two-quadrant), or 4 (four-quadrant, both inputs bipolar).",
+                    "type": "integer",
+                    "enum": [1, 2, 4]
+                },
+                "scaleFactor": {
+                    "description": "Denominator scale factor SF in out = V(inA)·V(inB)/SF, in V (e.g. 10 V for the AD633/MPY634).",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "totalError": {
+                    "description": "Total multiplication error as a fraction of full scale (e.g. 0.02 = ±2% for the AD633; 0.005 for the MPY634).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "bandwidth": {
+                    "description": "Small-signal -3 dB bandwidth, in Hz.",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "slewRate": {
+                    "description": "Output slew rate, in V/s.",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "supply": { "$ref": "./utils.json#/$defs/supply" }
+            }
+        },
         "behavioral": {
             "title": "multiplierBehavioral",
             "description": "Ideal four-quadrant multiply: out = gain·V(inA)·V(inB).",
