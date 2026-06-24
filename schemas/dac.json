@@ -11,28 +11,59 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
-                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
-                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
-                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
-                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
-                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
-                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
-                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
-                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
-                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
             },
-            "required": [ "name", "datasheetInfo" ]
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
         },
         "distributorsInfo": {
             "description": "Where to buy this component.",
             "type": "array",
-            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
         }
     },
     "anyOf": [
-        { "required": ["manufacturerInfo"] },
-        { "maxProperties": 0 }
+        {
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "maxProperties": 0
+        }
     ],
     "$defs": {
         "datasheetInfo": {
@@ -41,12 +72,27 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "part": { "$ref": "./utils.json#/$defs/part" },
-                "electrical": { "$ref": "#/$defs/electrical" },
-                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
-                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
             },
-            "required": [ "part", "electrical" ]
+            "required": [
+                "part",
+                "electrical"
+            ]
         },
         "electrical": {
             "title": "dacElectrical",
@@ -67,12 +113,23 @@
                 "architecture": {
                     "description": "Conversion architecture.",
                     "type": "string",
-                    "enum": [ "stringDac", "r2r", "multiplying", "sigmaDelta", "segmented", "currentSteering" ]
+                    "enum": [
+                        "stringDac",
+                        "r2r",
+                        "multiplying",
+                        "sigmaDelta",
+                        "segmented",
+                        "currentSteering"
+                    ]
                 },
                 "outputType": {
                     "description": "Output stage type.",
                     "type": "string",
-                    "enum": [ "voltageBuffered", "voltageUnbuffered", "current" ]
+                    "enum": [
+                        "voltageBuffered",
+                        "voltageUnbuffered",
+                        "current"
+                    ]
                 },
                 "settlingTime": {
                     "description": "Output settling time to the stated accuracy, in s.",
@@ -104,7 +161,9 @@
                     "description": "AC dynamic performance (SNR/THD/SFDR). Present on high-speed / RF DACs; absent on precision string DACs.",
                     "$ref": "./utils.json#/$defs/converterDynamics"
                 },
-                "referenceSource": { "$ref": "./utils.json#/$defs/referenceSource" },
+                "referenceSource": {
+                    "$ref": "./utils.json#/$defs/referenceSource"
+                },
                 "referenceVoltage": {
                     "description": "Reference voltage (internal or nominal external), in V.",
                     "type": "number",
@@ -113,7 +172,9 @@
                 "digitalInterface": {
                     "description": "Host data interface(s).",
                     "type": "array",
-                    "items": { "$ref": "./utils.json#/$defs/digitalInterface" }
+                    "items": {
+                        "$ref": "./utils.json#/$defs/digitalInterface"
+                    }
                 },
                 "supply": {
                     "description": "Analog supply rail.",
@@ -133,7 +194,10 @@
                     "type": "boolean"
                 }
             },
-            "required": [ "resolution", "architecture" ]
+            "required": [
+                "resolution",
+                "architecture"
+            ]
         }
     }
 }

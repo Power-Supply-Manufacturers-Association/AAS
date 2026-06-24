@@ -11,30 +11,67 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
-                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
-                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
-                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
-                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
-                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
-                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
-                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
-                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
-                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
             },
-            "required": ["name", "datasheetInfo"]
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
         },
         "distributorsInfo": {
             "description": "Where to buy this component",
             "type": "array",
-            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
         },
-        "behavioral": { "$ref": "#/$defs/behavioral" }
+        "behavioral": {
+            "$ref": "#/$defs/behavioral"
+        }
     },
     "anyOf": [
-        { "required": ["manufacturerInfo"] },
-        { "required": ["behavioral"] },
-        { "maxProperties": 0 }
+        {
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "required": [
+                "behavioral"
+            ]
+        },
+        {
+            "maxProperties": 0
+        }
     ],
     "$defs": {
         "datasheetInfo": {
@@ -42,12 +79,27 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "part": { "$ref": "./utils.json#/$defs/part" },
-                "electrical": { "$ref": "#/$defs/electrical" },
-                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
-                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
             },
-            "required": ["part", "electrical"]
+            "required": [
+                "part",
+                "electrical"
+            ]
         },
         "electrical": {
             "title": "multiplierElectrical",
@@ -63,7 +115,11 @@
                 "numberOfQuadrants": {
                     "description": "Multiplication quadrants: 1 (single-quadrant, unipolar inputs), 2 (two-quadrant), or 4 (four-quadrant, both inputs bipolar).",
                     "type": "integer",
-                    "enum": [1, 2, 4]
+                    "enum": [
+                        1,
+                        2,
+                        4
+                    ]
                 },
                 "scaleFactor": {
                     "description": "Denominator scale factor SF in out = V(inA)·V(inB)/SF, in V (e.g. 10 V for the AD633/MPY634).",
@@ -85,7 +141,9 @@
                     "type": "number",
                     "exclusiveMinimum": 0
                 },
-                "supply": { "$ref": "./utils.json#/$defs/supply" }
+                "supply": {
+                    "$ref": "./utils.json#/$defs/supply"
+                }
             }
         },
         "behavioral": {

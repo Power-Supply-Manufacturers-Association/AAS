@@ -11,28 +11,59 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
-                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
-                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
-                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
-                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
-                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
-                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
-                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
-                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
-                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
             },
-            "required": [ "name", "datasheetInfo" ]
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
         },
         "distributorsInfo": {
             "description": "Where to buy this component.",
             "type": "array",
-            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
         }
     },
     "anyOf": [
-        { "required": ["manufacturerInfo"] },
-        { "maxProperties": 0 }
+        {
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "maxProperties": 0
+        }
     ],
     "$defs": {
         "datasheetInfo": {
@@ -41,18 +72,35 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "part": { "$ref": "./utils.json#/$defs/part" },
-                "electrical": { "$ref": "#/$defs/electrical" },
-                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
-                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
             },
-            "required": [ "part", "electrical" ]
+            "required": [
+                "part",
+                "electrical"
+            ]
         },
         "electrical": {
             "title": "operationalAmplifierElectrical",
             "description": "Op-amp electricals: the shared amplifierCommon DC/noise/supply core plus op-amp-specific dynamics. Rail-to-rail input/output are kept as booleans (the parametric-search filters); the underlying V_CM range / output swing are not separately modelled to avoid redundancy. GBW and unity-gain bandwidth are the same quantity for unity-gain-stable VFAs and are stored once as gainBandwidthProduct.",
             "allOf": [
-                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "$ref": "./utils.json#/$defs/amplifierCommon"
+                },
                 {
                     "type": "object",
                     "properties": {
@@ -88,7 +136,12 @@
                         "inputStage": {
                             "description": "Input-stage process technology.",
                             "type": "string",
-                            "enum": [ "CMOS", "JFET", "bipolar", "BiCMOS" ]
+                            "enum": [
+                                "CMOS",
+                                "JFET",
+                                "bipolar",
+                                "BiCMOS"
+                            ]
                         },
                         "railToRailInput": {
                             "description": "True if the common-mode input range spans both rails.",

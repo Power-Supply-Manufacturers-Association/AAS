@@ -11,28 +11,59 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
-                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
-                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
-                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
-                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
-                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
-                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
-                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
-                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
-                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
             },
-            "required": [ "name", "datasheetInfo" ]
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
         },
         "distributorsInfo": {
             "description": "Where to buy this component.",
             "type": "array",
-            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
         }
     },
     "anyOf": [
-        { "required": ["manufacturerInfo"] },
-        { "maxProperties": 0 }
+        {
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "maxProperties": 0
+        }
     ],
     "$defs": {
         "datasheetInfo": {
@@ -41,25 +72,45 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "part": { "$ref": "./utils.json#/$defs/part" },
-                "electrical": { "$ref": "#/$defs/electrical" },
-                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
-                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
             },
-            "required": [ "part", "electrical" ]
+            "required": [
+                "part",
+                "electrical"
+            ]
         },
         "electrical": {
             "title": "sampleHoldElectrical",
             "description": "S&H electricals: amplifierCommon core (in track mode the part is an amplifier) plus the hold-phase specs. Droop = leakage / C_H; for external-C_H parts droop depends on the user's capacitor, so holdCapacitor records whether C_H is internal or external. The hold step (pedestal) and aperture jitter are the dynamic-accuracy limits.",
             "allOf": [
-                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "$ref": "./utils.json#/$defs/amplifierCommon"
+                },
                 {
                     "type": "object",
                     "properties": {
                         "subType": {
                             "description": "Sample-and-hold vs track-and-hold (used loosely / interchangeably in industry).",
                             "type": "string",
-                            "enum": [ "sampleAndHold", "trackAndHold" ]
+                            "enum": [
+                                "sampleAndHold",
+                                "trackAndHold"
+                            ]
                         },
                         "acquisitionTime": {
                             "description": "Hold-to-track acquisition time t_acq, in s.",
@@ -78,7 +129,10 @@
                         "holdCapacitor": {
                             "description": "Whether the hold capacitor is on-chip or an external C_H pin.",
                             "type": "string",
-                            "enum": [ "internal", "external" ]
+                            "enum": [
+                                "internal",
+                                "external"
+                            ]
                         },
                         "holdCapacitance": {
                             "description": "Hold capacitance C_H, in F (internal parts; or the value at which droop/acquisition are specified for external parts).",
@@ -114,7 +168,12 @@
                         "switchTechnology": {
                             "description": "Sampling-switch technology.",
                             "type": "string",
-                            "enum": [ "CMOS", "FET", "diodeBridge", "bipolar" ]
+                            "enum": [
+                                "CMOS",
+                                "FET",
+                                "diodeBridge",
+                                "bipolar"
+                            ]
                         }
                     }
                 }

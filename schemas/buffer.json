@@ -11,28 +11,59 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "name": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name" },
-                "reference": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference" },
-                "status": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status" },
-                "description": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description" },
-                "orderCode": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode" },
-                "datasheetUrl": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl" },
-                "family": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family" },
-                "series": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series" },
-                "spiceModel": { "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel" },
-                "datasheetInfo": { "$ref": "#/$defs/datasheetInfo" }
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
             },
-            "required": [ "name", "datasheetInfo" ]
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
         },
         "distributorsInfo": {
             "description": "Where to buy this component.",
             "type": "array",
-            "items": { "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo" }
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
         }
     },
     "anyOf": [
-        { "required": ["manufacturerInfo"] },
-        { "maxProperties": 0 }
+        {
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "maxProperties": 0
+        }
     ],
     "$defs": {
         "datasheetInfo": {
@@ -41,25 +72,49 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "part": { "$ref": "./utils.json#/$defs/part" },
-                "electrical": { "$ref": "#/$defs/electrical" },
-                "thermal": { "$ref": "./utils.json#/$defs/thermal" },
-                "mechanical": { "$ref": "./utils.json#/$defs/mechanical" }
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
             },
-            "required": [ "part", "electrical" ]
+            "required": [
+                "part",
+                "electrical"
+            ]
         },
         "electrical": {
             "title": "bufferElectrical",
             "description": "Buffer electricals: amplifierCommon core plus output-drive and the gain configuration (gain is nominally unity, so it is an enum + optional fixed value rather than a free parameter).",
             "allOf": [
-                { "$ref": "./utils.json#/$defs/amplifierCommon" },
+                {
+                    "$ref": "./utils.json#/$defs/amplifierCommon"
+                },
                 {
                     "type": "object",
                     "properties": {
                         "bufferType": {
                             "description": "Buffer subclass.",
                             "type": "string",
-                            "enum": [ "openLoopBuffer", "closedLoopBuffer", "lineDriver", "videoBuffer", "differentialDriver", "powerBuffer" ]
+                            "enum": [
+                                "openLoopBuffer",
+                                "closedLoopBuffer",
+                                "lineDriver",
+                                "videoBuffer",
+                                "differentialDriver",
+                                "powerBuffer"
+                            ]
                         },
                         "bandwidth": {
                             "description": "Small-signal -3 dB bandwidth, in Hz.",
@@ -69,7 +124,11 @@
                         "gainConfiguration": {
                             "description": "Gain configuration (buffers are nominally unity-gain).",
                             "type": "string",
-                            "enum": [ "fixedUnity", "fixedGain", "adjustableGain" ]
+                            "enum": [
+                                "fixedUnity",
+                                "fixedGain",
+                                "adjustableGain"
+                            ]
                         },
                         "fixedGainValue": {
                             "description": "Fixed gain, in V/V (for fixedGain parts, e.g. +2 video buffers).",
@@ -97,7 +156,11 @@
                         "outputType": {
                             "description": "Output configuration.",
                             "type": "string",
-                            "enum": [ "singleEnded", "differential", "complementary" ]
+                            "enum": [
+                                "singleEnded",
+                                "differential",
+                                "complementary"
+                            ]
                         },
                         "thermalShutdown": {
                             "description": "True if the part has internal thermal-shutdown protection.",
