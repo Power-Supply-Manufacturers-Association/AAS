@@ -1,0 +1,16 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "ideal sample-and-hold control block (behavioural model, not a catalog part)",
+            "deviceType": "sampleHold"
+        }
+    },
+    "sampleHold": {
+        "behavioral": {
+            "mode": "sampleOnEdge",
+            "threshold": 2.5,
+            "polarity": "activeHigh"
+        }
+    },
+    "outputs": []
+}

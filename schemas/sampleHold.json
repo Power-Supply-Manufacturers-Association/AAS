@@ -53,6 +53,9 @@
             "items": {
                 "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
             }
+        },
+        "behavioral": {
+            "$ref": "#/$defs/behavioral"
         }
     },
     "anyOf": [
@@ -62,10 +65,48 @@
             ]
         },
         {
+            "required": [
+                "behavioral"
+            ]
+        },
+        {
             "maxProperties": 0
         }
     ],
     "$defs": {
+        "behavioral": {
+            "title": "sampleHoldBehavioral",
+            "description": "Simulator-agnostic IDEAL sample-and-hold, for circuit simulation — distinct from the datasheet `electrical` selection parameters. mode='trackWhileActive': out tracks in while the trigger condition holds and holds its last value otherwise; mode='sampleOnEdge': out captures in on the trigger's active edge only. Present on an otherwise part-less document to describe an ideal control block. A backend realises it as an ideal switch + hold capacitor + unity buffer (LTspice) or the XSPICE sample idiom (ngspice).",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "mode",
+                "threshold",
+                "polarity"
+            ],
+            "properties": {
+                "mode": {
+                    "description": "trackWhileActive = transparent while the trigger is active, holds when inactive. sampleOnEdge = captures on the active edge only.",
+                    "type": "string",
+                    "enum": [
+                        "trackWhileActive",
+                        "sampleOnEdge"
+                    ]
+                },
+                "threshold": {
+                    "description": "Trigger trip level, in V.",
+                    "type": "number"
+                },
+                "polarity": {
+                    "description": "Which side of threshold (trackWhileActive) or which edge (sampleOnEdge) is active.",
+                    "type": "string",
+                    "enum": [
+                        "activeHigh",
+                        "activeLow"
+                    ]
+                }
+            }
+        },
         "datasheetInfo": {
             "title": "sampleHoldDatasheetInfo",
             "description": "All information extracted from the sample-and-hold datasheet.",

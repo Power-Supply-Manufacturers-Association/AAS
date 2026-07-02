@@ -69,6 +69,8 @@ With these + `comparator` you can build current loops, voltage loops, and polari
 
 **sampleHold** = `amplifierCommon` + `subType` (sampleAndHold/trackAndHold), `acquisitionTime` + `acquisitionAccuracy`, `droopRate` (V/s), `holdCapacitor` (internal/external) + `holdCapacitance`, `apertureDelay`, `apertureJitter`, `holdStep`, `feedthrough` (dB), `bandwidth`, `gain`, `switchTechnology` (CMOS/FET/diodeBridge/bipolar).
 
+Like the comparator, `sampleHold` also carries an optional ideal **`behavioral`** block (valid without `manufacturerInfo`, per PEAS-RFC 0001): `mode` (req: `trackWhileActive` = transparent while the trigger is active, holds otherwise / `sampleOnEdge` = captures on the active edge only), `threshold` (req, V on the trigger input), `polarity` (req: activeHigh/activeLow). A backend realises it as switch + hold capacitor + unity buffer (LTspice) or the XSPICE sample idiom (ngspice). See `examples/ideal-samplehold-behavioral.json`.
+
 **analogSwitch** = `switchCore` + `switchConfiguration` (req: SPST-NO/SPST-NC/SPDT/DPST/DPDT/SP3T/SP4T/DP3T/DP4T/4PST), `numberOfSwitches`, `totalHarmonicDistortion` (dB).
 
 **multiplexer** = `switchCore` + `multiplexerConfiguration` (req, e.g. "8:1"), `numberOfChannels`, `signalConfiguration` (`inputType`), `breakBeforeMakeTime`, `transitionTime`.
