@@ -15,10 +15,16 @@ const json& analog_of(const json& peas) {
 // exposed as a like-named port. The CIAS converter realises the atom per backend.
 json single_atom_leaf(const std::string& name, const std::string& kind, const json& block,
                       const std::vector<std::string>& pins) {
+    // A datasheet-only part (no behavioral model) cannot be lowered to an ideal block: silently
+    // dropping the block used to let the CIAS realizer fabricate a 5 V comparator from nothing.
+    if (!block.contains("behavioral") || !block.at("behavioral").is_object())
+        throw std::runtime_error("aas_to_cias: analog " + kind + " '" + name +
+                                 "' has no behavioral block — a datasheet-only part cannot be "
+                                 "realized as an ideal element");
     json atom;
     json& b = atom["analog"][kind];
     b = json::object();
-    if (block.contains("behavioral")) b["behavioral"] = block.at("behavioral");
+    b["behavioral"] = block.at("behavioral");
 
     json leaf;
     leaf["name"] = name;

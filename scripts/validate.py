@@ -7,10 +7,7 @@ Three gates:
   2. each examples/*.json validates against AAS.json;
   3. each example is also a valid PEAS document (the `analog` branch).
 
-NOTE: gate 3 only passes once PEAS/peas.json carries the `analog` discriminator
-branch ($ref https://psma.com/aas/AAS.json) + the matching designRequirements
-if/then clause. Until that (governance-controlled) PEAS edit is applied, gate 3
-reports CITIZENSHIP FAIL by design — the signal that the branch is still missing,
+NOTE: gate 3: PEAS citizenship (PEAS has the `analog` branch; a skip is a FAILURE).
 not something to silence.
 """
 import json
@@ -28,7 +25,7 @@ PSMA = os.path.dirname(HERE)
 
 def load_all():
     resources = []
-    for repo in ("PEAS", "MAS", "CAS", "SAS", "RAS", "CONAS", "CTAS", "AAS"):
+    for repo in ("PEAS", "MAS", "CAS", "SAS", "RAS", "CONAS", "CTAS", "AAS", "TAS", "CIAS", "COAS"):
         pat = os.path.join(PSMA, repo, "schemas", "**", "*.json")
         for f in glob.glob(pat, recursive=True):
             try:
@@ -123,7 +120,8 @@ def main():
             else:
                 print(f"  citizenship OK (valid PEAS under 'analog'): {os.path.basename(f)}")
     except Exception as exc:  # noqa: BLE001
-        print(f"  citizenship SKIPPED (PEAS not resolvable): {exc}")
+        errors += 1
+        print(f"\nFAIL: citizenship gate cannot run (PEAS not resolvable): {exc}")
 
     print("\n" + ("PASS" if errors == 0 else f"FAIL ({errors} errors)"))
     sys.exit(1 if errors else 0)

@@ -34,7 +34,7 @@ The boundary test: if the part's reason-for-being is *controlling or sensing a p
 ```
 AAS document
   inputs       designRequirements seed (+ optional operatingPoints)
-  <family>     exactly one of the 11 families above (the field name is the discriminator)
+  <family>     exactly one of the 14 families above (the field name is the discriminator)
   outputs[]    per-operating-point results (powerDissipation, thermal, selection)
 ```
 

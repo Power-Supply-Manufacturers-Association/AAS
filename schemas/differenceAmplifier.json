@@ -153,7 +153,10 @@
                                 "differential"
                             ]
                         }
-                    }
+                    },
+                    "required": [
+                        "gain"
+                    ]
                 }
             ],
             "unevaluatedProperties": false

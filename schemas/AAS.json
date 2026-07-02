@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://psma.com/aas/AAS.json",
     "title": "AAS",
-    "description": "Analog Agnostic Structure (AAS). A document carries inputs, exactly one of {operationalAmplifier, comparator, instrumentationAmplifier, differenceAmplifier, programmableGainAmplifier, buffer, sampleHold, analogSwitch, multiplexer, adc, dac} (the field name is the discriminator), and outputs. AAS is the home for GENERIC analog/linear ICs that are not power-conversion control parts (those live in CTAS) and not discrete power semiconductors (those live in SAS). Structure mirrors SAS: the device family is discriminated by which top-level field is present, not by a deviceType property. Every valid AAS document is also a valid PEAS document (the `analog` branch).",
+    "description": "Analog Agnostic Structure (AAS). A document carries inputs, exactly one of {operationalAmplifier, comparator, instrumentationAmplifier, differenceAmplifier, programmableGainAmplifier, buffer, sampleHold, analogSwitch, multiplexer, adc, dac, multiplier, summer, integrator} (the field name is the discriminator), and outputs. AAS is the home for GENERIC analog/linear ICs that are not power-conversion control parts (those live in CTAS) and not discrete power semiconductors (those live in SAS). Structure mirrors SAS: the device family is discriminated by which top-level field is present, not by a deviceType property. Every valid AAS document is also a valid PEAS document (the `analog` branch).",
     "type": "object",
     "additionalProperties": false,
     "properties": {
@@ -91,23 +91,86 @@
         }
     },
     "anyOf": [
-        { "required": ["inputs", "outputs"] },
-        { "maxProperties": 1 }
+        {
+            "required": [
+                "inputs",
+                "outputs"
+            ]
+        },
+        {
+            "maxProperties": 1
+        }
     ],
     "oneOf": [
-        { "required": ["operationalAmplifier"] },
-        { "required": ["comparator"] },
-        { "required": ["instrumentationAmplifier"] },
-        { "required": ["differenceAmplifier"] },
-        { "required": ["programmableGainAmplifier"] },
-        { "required": ["buffer"] },
-        { "required": ["sampleHold"] },
-        { "required": ["analogSwitch"] },
-        { "required": ["multiplexer"] },
-        { "required": ["adc"] },
-        { "required": ["dac"] },
-        { "required": ["multiplier"] },
-        { "required": ["integrator"] },
-        { "required": ["summer"] }
+        {
+            "required": [
+                "operationalAmplifier"
+            ]
+        },
+        {
+            "required": [
+                "comparator"
+            ]
+        },
+        {
+            "required": [
+                "instrumentationAmplifier"
+            ]
+        },
+        {
+            "required": [
+                "differenceAmplifier"
+            ]
+        },
+        {
+            "required": [
+                "programmableGainAmplifier"
+            ]
+        },
+        {
+            "required": [
+                "buffer"
+            ]
+        },
+        {
+            "required": [
+                "sampleHold"
+            ]
+        },
+        {
+            "required": [
+                "analogSwitch"
+            ]
+        },
+        {
+            "required": [
+                "multiplexer"
+            ]
+        },
+        {
+            "required": [
+                "adc"
+            ]
+        },
+        {
+            "required": [
+                "dac"
+            ]
+        },
+        {
+            "required": [
+                "multiplier"
+            ]
+        },
+        {
+            "required": [
+                "integrator"
+            ]
+        },
+        {
+            "required": [
+                "summer"
+            ]
+        }
     ]
 }

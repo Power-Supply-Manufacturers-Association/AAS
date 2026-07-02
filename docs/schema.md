@@ -43,7 +43,7 @@ Every family file has the same outer shape (mirroring SAS `mosfet.json`):
 
 **operationalAmplifier** = `amplifierCommon` + `gainBandwidthProduct` (≡ unity-gain BW for VFA), `openLoopGain` (dB), `outputCurrent`, `architecture` (generalPurpose/precision/lowNoise/lowPower/highSpeed/zeroDrift/currentFeedback/fullyDifferential/transimpedance), `inputStage` (CMOS/JFET/bipolar/BiCMOS), `railToRailInput`, `railToRailOutput`, `unityGainStable` (+ `minimumStableGain`), `hasShutdown`.
 
-**comparator** (standalone) = `numberOfChannels`, `propagationDelay` (req) + `propagationDelayOverdrive` + `propagationDelayLoadCapacitance`, `inputOffsetVoltage`, `inputBiasCurrent`, `hysteresis` (absent = none), `outputStage` (pushPull/openDrain/openCollector/complementary), `commonModeVoltageRange`, `type` (generalPurpose/lowPower/highSpeed/precision/window), `hasLatch`, `supply`.
+**comparator** (standalone) = `numberOfChannels`, `propagationDelay` (optional since 2026-07 — was the only required performance leaf in any family and blocked imports; carry the conditions when present) + `propagationDelayOverdrive` + `propagationDelayLoadCapacitance`, `inputOffsetVoltage`, `inputBiasCurrent`, `hysteresis` (absent = none), `outputStage` (pushPull/openDrain/openCollector/complementary), `commonModeVoltageRange`, `type` (generalPurpose/lowPower/highSpeed/precision/window), `hasLatch`, `supply`.
 
 ## Ideal behavioural model (`comparator.behavioral`)
 
@@ -59,11 +59,11 @@ Three additional families are **ideal behavioural blocks** for circuit simulatio
 
 With these + `comparator` you can build current loops, voltage loops, and polarity-aware control entirely in the (simulator-agnostic) netlist; a backend maps each to its own multiply / integrate / sum / compare block. See `examples/ideal-{multiplier,integrator,summer}-behavioral.json`.
 
-**instrumentationAmplifier** = `amplifierCommon` + `gainSetMethod` (req: singleResistor/fixed/pinProgrammable/digitallyProgrammable), `gainEquationConstant` (k in G=1+k/R_G), `minimumGain`/`maximumGain`, `bandwidthVsGain[]` & `commonModeRejectionRatioVsGain[]` (`gainPoint` arrays), `outputOffsetVoltage`, `inputCommonModeVoltageRange`, `architecture` (threeOpAmp/twoOpAmp/currentFeedback/zeroDrift).
+**instrumentationAmplifier** = `amplifierCommon` + `gainSetMethod` (optional — enforcement blocked: the 49 catalogued in-amps lack it, librarian backlog; values: singleResistor/fixed/pinProgrammable/digitallyProgrammable), `gainEquationConstant` (k in G=1+k/R_G), `minimumGain`/`maximumGain`, `bandwidthVsGain[]` & `commonModeRejectionRatioVsGain[]` (`gainPoint` arrays), `outputOffsetVoltage`, `inputCommonModeVoltageRange`, `architecture` (threeOpAmp/twoOpAmp/currentFeedback/zeroDrift).
 
 **differenceAmplifier** = `amplifierCommon` + `gain` (req, fixed), `gainConfigurability` (fixed/pinSelectable), `gainOptions[]`, `gainError` (fraction), `gainErrorDrift` (1/K), `bandwidth`, `inputCommonModeVoltageRange` (may exceed rails), `inputOverloadVoltage`, `outputType` (singleEnded/differential).
 
-**programmableGainAmplifier** = `amplifierCommon` + `gainValues[]` (req), `gainProgression` (binary/decade/scope/arbitrary), `digitalInterface[]`, `inputMultiplexerChannels`, `bandwidthVsGain[]`, `commonModeRejectionRatioVsGain[]`, `architecture` (opAmpPga/instrumentationPga).
+**programmableGainAmplifier** = `amplifierCommon` + `gainValues[]` (optional — enforcement blocked: the 44 catalogued PGAs lack it, librarian backlog), `gainProgression` (binary/decade/scope/arbitrary), `digitalInterface[]`, `inputMultiplexerChannels`, `bandwidthVsGain[]`, `commonModeRejectionRatioVsGain[]`, `architecture` (opAmpPga/instrumentationPga).
 
 **buffer** = `amplifierCommon` + `bufferType` (openLoopBuffer/closedLoopBuffer/lineDriver/videoBuffer/differentialDriver/powerBuffer), `bandwidth`, `gainConfiguration` (fixedUnity/fixedGain/adjustableGain) + `fixedGainValue`, `continuousOutputCurrent`, `peakOutputCurrent`, `outputImpedance`, `adjustableCurrentLimit`, `outputType`, `thermalShutdown`.
 
@@ -79,7 +79,7 @@ With these + `comparator` you can build current loops, voltage loops, and polari
 
 ## Inputs / outputs
 
-`inputs.designRequirements` = PEAS `designRequirementsBase` + `deviceType` (req, one of the 11 families) + generic seeds: `minimumChannels`, `supplyVoltage` (`dimensionWithTolerance`), `maximumQuiescentCurrent`, `maximumInputOffsetVoltage`, `minimumBandwidth`, `minimumResolution`.
+`inputs.designRequirements` = PEAS `designRequirementsBase` + `deviceType` (req, one of the 14 families) + generic seeds: `minimumChannels`, `supplyVoltage` (`dimensionWithTolerance`), `maximumQuiescentCurrent`, `maximumInputOffsetVoltage`, `minimumBandwidth`, `minimumResolution`.
 
 `outputs` (each block wraps PEAS `outputBase` `{origin, methodUsed}`): `powerDissipation` (`quiescentLoss`/`outputLoss`/`totalLoss`), `thermal` (`junctionTemperature`, `passes`), `selection` (`supplyVoltageMargin`, `channelsSatisfied`, `passes`).
 ## Provenance (data-source trail)

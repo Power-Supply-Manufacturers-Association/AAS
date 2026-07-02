@@ -23,3 +23,13 @@ target_include_directories(AAS PUBLIC
     src
     "${CMAKE_CURRENT_SOURCE_DIR}/../PEAS/src")    # Fidelity.hpp
 target_link_libraries(AAS PUBLIC nlohmann_json::nlohmann_json)
+
+# --- Catch2 unit tests (house standard: run ./build/aas_tests directly, never ctest). ---
+option(AAS_BUILD_TESTS "Build AAS unit tests" ON)
+if (AAS_BUILD_TESTS AND NOT EMSCRIPTEN)
+    FetchContent_Declare(Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git GIT_TAG v3.8.1)
+    FetchContent_MakeAvailable(Catch2)
+    add_executable(aas_tests tests/test_aas.cpp)
+    target_link_libraries(aas_tests PRIVATE AAS Catch2::Catch2WithMain)
+endif()
