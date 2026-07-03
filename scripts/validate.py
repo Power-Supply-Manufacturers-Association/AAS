@@ -10,8 +10,8 @@ Three gates:
 NOTE: gate 3: PEAS citizenship (PEAS has the `analog` branch; a skip is a FAILURE).
 not something to silence.
 """
-import json
 import glob
+import json
 import os
 import sys
 
@@ -60,7 +60,7 @@ def main():
         rel = os.path.relpath(f, HERE)
         try:
             Draft202012Validator.check_schema(doc)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             errors += 1
             print(f"\nMETA-SCHEMA FAIL {rel}: {exc}")
             continue
@@ -119,7 +119,7 @@ def main():
                     print("   ", list(e.path), "->", e.message)
             else:
                 print(f"  citizenship OK (valid PEAS under 'analog'): {os.path.basename(f)}")
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         errors += 1
         print(f"\nFAIL: citizenship gate cannot run (PEAS not resolvable): {exc}")
 
