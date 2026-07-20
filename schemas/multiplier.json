@@ -91,6 +91,10 @@
                 "mechanical": {
                     "$ref": "./utils.json#/$defs/mechanical"
                 },
+                "pinout": {
+                    "description": "Per-pin function map (see utils pinout) — the deciding axis for IC interchangeability: same package does not imply same pinout.",
+                    "$ref": "./utils.json#/$defs/pinout"
+                },
                 "provenance": {
                     "description": "Data-provenance trail (see provenance).",
                     "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"

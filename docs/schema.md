@@ -18,7 +18,7 @@ Every family file has the same outer shape (mirroring SAS `mosfet.json`):
 
 ```
 <family>.manufacturerInfo            name (req) + reference/status/description/orderCode/datasheetUrl/family/series/spiceModel + datasheetInfo (req)
-<family>.manufacturerInfo.datasheetInfo   part (req) + electrical (req) + thermal + mechanical
+<family>.manufacturerInfo.datasheetInfo   part (req) + electrical (req) + thermal + mechanical + pinout
 <family>.distributorsInfo[]          PEAS distributorInfo
 ```
 
@@ -29,6 +29,7 @@ Every family file has the same outer shape (mirroring SAS `mosfet.json`):
 - **`part`** — extends PEAS `datasheetInfoPartBase` (`partNumber`, `series`, `case`, `description`) with `package` (manufacturer package designation) and `qualification` (grade, e.g. AEC-Q100).
 - **`thermal`** — extends PEAS `datasheetInfoThermal` (`operatingTemperature` as a `dimensionWithTolerance` min/max in degC) with `thermalResistanceJunctionAmbient` (K/W) and `maximumPowerDissipation` (W).
 - **`mechanical`** — extends PEAS `datasheetInfoMechanical` (length/width/height/diameter/weight/shapeType/assemblyType) with `case`.
+- **`pinout`** — optional per-pin function map, one entry per package pin/ball: `pin` (req, as printed: `"1"`, `"A2"`), `function` (req, normalized enum: inputPositive/inputNegative/output/supplyPositive/…/noConnect/other), `name` (datasheet label verbatim), `polarity` (activeHigh/activeLow, control pins), `outputStage` (pushPull/openDrain/openCollector — decides drop-in compatibility for outputs). This is the deciding axis for IC swaps: same package ≠ same pinout (three mutually incompatible SOIC-8 single-op-amp pinouts exist). Register-map compatibility is deliberately out of scope.
 
 ## Shared electrical cores (`utils.json`)
 

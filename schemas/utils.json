@@ -321,6 +321,77 @@
                 "differential",
                 "pseudoDifferential"
             ]
+        },
+        "pinout": {
+            "title": "pinout",
+            "description": "Per-pin function map — one entry per package pin/ball. This is the deciding axis for IC interchangeability: same package does NOT imply same pinout (three mutually incompatible SOIC-8 single-op-amp pinouts exist: all-NC vs pin-8 disable vs pin-1/8 offset-trim). Function is a normalized vocabulary so a machine can compare two parts pin-by-pin; name preserves the datasheet's own label. Register-map compatibility is deliberately out of scope — it is not a parametric property.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "pin": {
+                        "description": "Pin number or ball designator, as printed ('1', 'A2').",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Datasheet pin name verbatim ('IN+', 'DIS', 'NC/TRIM').",
+                        "type": "string"
+                    },
+                    "function": {
+                        "description": "Normalized pin function.",
+                        "type": "string",
+                        "enum": [
+                            "inputPositive",
+                            "inputNegative",
+                            "input",
+                            "output",
+                            "outputComplementary",
+                            "supplyPositive",
+                            "supplyNegative",
+                            "ground",
+                            "enable",
+                            "disable",
+                            "shutdown",
+                            "offsetTrim",
+                            "compensation",
+                            "reference",
+                            "feedback",
+                            "chipSelect",
+                            "clock",
+                            "dataIn",
+                            "dataOut",
+                            "dataBidirectional",
+                            "address",
+                            "interrupt",
+                            "noConnect",
+                            "doNotConnect",
+                            "other"
+                        ]
+                    },
+                    "polarity": {
+                        "description": "Active level for control pins.",
+                        "type": "string",
+                        "enum": [
+                            "activeHigh",
+                            "activeLow"
+                        ]
+                    },
+                    "outputStage": {
+                        "description": "Output driver topology, for output pins where it decides drop-in compatibility (open-drain needs a pull-up and fights a push-pull swap).",
+                        "type": "string",
+                        "enum": [
+                            "pushPull",
+                            "openDrain",
+                            "openCollector"
+                        ]
+                    }
+                },
+                "required": [
+                    "pin",
+                    "function"
+                ]
+            }
         }
     }
 }
