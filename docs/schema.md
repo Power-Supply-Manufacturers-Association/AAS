@@ -20,7 +20,10 @@ Every family file has the same outer shape (mirroring SAS `mosfet.json`):
 <family>.manufacturerInfo            name (req) + reference/status/description/orderCode/datasheetUrl/family/series/spiceModel + datasheetInfo (req)
 <family>.manufacturerInfo.datasheetInfo   part (req) + electrical (req) + thermal + mechanical + pinout
 <family>.distributorsInfo[]          PEAS distributorInfo
+<family>.substitutesInfo[]           PEAS substituteInfo — successors + second sources
 ```
+
+`substitutesInfo[]` (PEAS-RFC 0002) is the PEAS type every part family shares: `{partNumber (req), manufacturer, type, notes, source}`. `type: "successor"` means THIS part is superseded by the named one — one hop, as the manufacturer states it, never inferred from `status: obsolete`. The named part need not be in any catalogue (resolution is the referential pass's job), and the evidence is an ordinary `datasheetInfo.provenance[]` entry with `fields: ["substitutesInfo"]`. It rides along with a sourced part: a family object carrying only `substitutesInfo` is rejected by the seed `anyOf`.
 
 `manufacturerInfo` field definitions are `$ref`-ed from `https://psma.com/peas/utils.json#/$defs/manufacturerInfo`. An empty family object `{}` is a valid pre-librarian seed.
 

@@ -54,6 +54,13 @@
                 "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
             }
         },
+        "substitutesInfo": {
+            "description": "Replacement parts for this one: manufacturer-named successors and second sources. An entry with type 'successor' means THIS part is superseded by the named one, one hop, as the manufacturer states it - never inferred from a status of obsolete or from part-number similarity. The schema cannot check that the named part exists in the catalogue, or exists exactly once; that is the referential pass's job, as for CIAS component URIs. Evidence for the claim goes in the record's provenance[] with fields: [\"substitutesInfo\"], carrying the same sourceUrl, retrievedDate and verification stamp as any datasheet field.",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/substituteInfo"
+            }
+        },
         "behavioral": {
             "$ref": "#/$defs/behavioral"
         }
