@@ -1,0 +1,275 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "Closed-loop Hall current transducer, 50 A RMS nominal, aperture, current output",
+            "deviceType": "currentSensor",
+            "minimumChannels": 1
+        }
+    },
+    "currentSensor": {
+        "manufacturerInfo": {
+            "name": "LEM",
+            "reference": "LA 55-P",
+            "status": "production",
+            "description": "Closed-loop Hall-effect current transducer, I_PN 50 A, 1:1000, PCB mount",
+            "datasheetUrl": "https://www.lem.com/sites/default/files/products_datasheets/la_55-p_v19.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "LA 55-P",
+                    "series": "LA"
+                },
+                "electrical": {
+                    "numberOfChannels": 1,
+                    "sensingElement": "hall",
+                    "loopType": "closedLoop",
+                    "primaryConductor": "aperture",
+                    "primaryAperture": {
+                        "shape": "rectangular",
+                        "width": 0.0127,
+                        "height": 0.007
+                    },
+                    "primaryNominalCurrent": 50,
+                    "measuringRange": {
+                        "minimum": -70,
+                        "maximum": 70
+                    },
+                    "output": {
+                        "type": "analogCurrent",
+                        "conversionRatio": 0.001,
+                        "secondaryNominalCurrent": 0.05,
+                        "offsetCurrent": {
+                            "minimum": -0.0002,
+                            "maximum": 0.0002
+                        },
+                        "secondaryCoilResistance": [
+                            {
+                                "resistance": 80,
+                                "ambientTemperature": 70
+                            },
+                            {
+                                "resistance": 85,
+                                "ambientTemperature": 85
+                            }
+                        ],
+                        "measuringResistance": [
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 12
+                                },
+                                "primaryCurrent": 50,
+                                "ambientTemperature": {
+                                    "nominal": 70
+                                },
+                                "minimum": 10,
+                                "maximum": 100
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 12
+                                },
+                                "primaryCurrent": 50,
+                                "ambientTemperature": {
+                                    "nominal": 85
+                                },
+                                "minimum": 60,
+                                "maximum": 95
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 12
+                                },
+                                "primaryCurrent": 70,
+                                "ambientTemperature": {
+                                    "nominal": 70
+                                },
+                                "minimum": 10,
+                                "maximum": 50
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 12
+                                },
+                                "primaryCurrent": 60,
+                                "ambientTemperature": {
+                                    "nominal": 85
+                                },
+                                "minimum": 60,
+                                "maximum": 60
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 15
+                                },
+                                "primaryCurrent": 50,
+                                "ambientTemperature": {
+                                    "nominal": 70
+                                },
+                                "minimum": 50,
+                                "maximum": 160
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 15
+                                },
+                                "primaryCurrent": 50,
+                                "ambientTemperature": {
+                                    "nominal": 85
+                                },
+                                "minimum": 135,
+                                "maximum": 155
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 15
+                                },
+                                "primaryCurrent": 70,
+                                "ambientTemperature": {
+                                    "nominal": 70
+                                },
+                                "minimum": 50,
+                                "maximum": 90
+                            },
+                            {
+                                "supplyRailVoltage": {
+                                    "nominal": 15
+                                },
+                                "primaryCurrent": 55,
+                                "ambientTemperature": {
+                                    "nominal": 85
+                                },
+                                "minimum": 135,
+                                "maximum": 135
+                            }
+                        ]
+                    },
+                    "totalError": [
+                        {
+                            "maximum": 0.0065,
+                            "reference": "ofNominalCurrent",
+                            "supplyRailVoltage": {
+                                "nominal": 15
+                            },
+                            "ambientTemperature": {
+                                "nominal": 25
+                            }
+                        },
+                        {
+                            "maximum": 0.009,
+                            "reference": "ofNominalCurrent",
+                            "supplyRailVoltage": {
+                                "minimum": 12,
+                                "maximum": 15
+                            },
+                            "ambientTemperature": {
+                                "nominal": 25
+                            }
+                        }
+                    ],
+                    "linearityError": 0.0015,
+                    "bandwidth": 200000.0,
+                    "bandwidthCriterion": -1,
+                    "propagationDelay": 5e-07,
+                    "responseTime": 1e-06,
+                    "supply": {
+                        "minimumSupplyVoltage": 22.8,
+                        "maximumSupplyVoltage": 31.5,
+                        "dualSupply": true
+                    },
+                    "supplyCurrent": {
+                        "minimum": 0.008,
+                        "nominal": 0.01,
+                        "maximum": 0.012
+                    },
+                    "isolation": {
+                        "withstandVoltageRms": 2500,
+                        "withstandVoltageDuration": 60,
+                        "impulseVoltage": 5700,
+                        "creepage": 0.005,
+                        "clearance": 0.005,
+                        "comparativeTrackingIndex": 600,
+                        "materialGroup": "I",
+                        "ratedInsulationVoltage": [
+                            {
+                                "standard": "EN 50178",
+                                "insulationClass": "basic",
+                                "voltage": 300,
+                                "overvoltageCategory": "III",
+                                "pollutionDegree": "PD2"
+                            },
+                            {
+                                "standard": "EN 50178",
+                                "insulationClass": "reinforced",
+                                "voltage": 150,
+                                "overvoltageCategory": "III",
+                                "pollutionDegree": "PD2"
+                            },
+                            {
+                                "standard": "IEC 61010-1",
+                                "insulationClass": "basic",
+                                "voltage": 300,
+                                "overvoltageCategory": "III",
+                                "pollutionDegree": "PD2"
+                            },
+                            {
+                                "standard": "IEC 61010-1",
+                                "insulationClass": "reinforced",
+                                "voltage": 150,
+                                "overvoltageCategory": "III",
+                                "pollutionDegree": "PD2"
+                            }
+                        ]
+                    }
+                },
+                "thermal": {
+                    "operatingTemperature": {
+                        "minimum": -40,
+                        "maximum": 85
+                    }
+                },
+                "mechanical": {
+                    "weight": 0.018
+                },
+                "provenance": [
+                    {
+                        "source": "manufacturerDatasheet",
+                        "sourceName": "LEM LA 55-P data sheet N° 97.13.25.000.0, version 19 (6 July 2023)",
+                        "sourceUrl": "https://www.lem.com/sites/default/files/products_datasheets/la_55-p_v19.pdf",
+                        "retrievedDate": "2026-10-18",
+                        "fields": [
+                            "datasheetInfo.part.partNumber",
+                            "datasheetInfo.part.series",
+                            "datasheetInfo.electrical.numberOfChannels",
+                            "datasheetInfo.electrical.sensingElement",
+                            "datasheetInfo.electrical.loopType",
+                            "datasheetInfo.electrical.primaryConductor",
+                            "datasheetInfo.electrical.primaryAperture",
+                            "datasheetInfo.electrical.primaryNominalCurrent",
+                            "datasheetInfo.electrical.measuringRange",
+                            "datasheetInfo.electrical.output",
+                            "datasheetInfo.electrical.totalError",
+                            "datasheetInfo.electrical.linearityError",
+                            "datasheetInfo.electrical.bandwidth",
+                            "datasheetInfo.electrical.bandwidthCriterion",
+                            "datasheetInfo.electrical.propagationDelay",
+                            "datasheetInfo.electrical.responseTime",
+                            "datasheetInfo.electrical.supplyCurrent",
+                            "datasheetInfo.electrical.isolation",
+                            "datasheetInfo.thermal",
+                            "datasheetInfo.mechanical"
+                        ],
+                        "verification": "valuesReadFromSource",
+                        "verificationDate": "2026-10-18"
+                    },
+                    {
+                        "source": "derived",
+                        "fields": [
+                            "datasheetInfo.electrical.supply"
+                        ],
+                        "derivation": "AAS supply is the total (V+)-(V-) span: datasheet U_C = +/-12...15 V +/-5 % gives 2 x 12 x 0.95 = 22.8 V and 2 x 15 x 1.05 = 31.5 V, dual supply."
+                    }
+                ]
+            }
+        }
+    },
+    "outputs": []
+}

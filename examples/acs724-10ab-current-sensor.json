@@ -1,0 +1,223 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "Hall current sensor, +/-10 A, integrated conductor, 5 V ratiometric output",
+            "deviceType": "currentSensor",
+            "minimumChannels": 1,
+            "supplyVoltage": {
+                "minimum": 4.5,
+                "maximum": 5.5
+            }
+        }
+    },
+    "currentSensor": {
+        "manufacturerInfo": {
+            "name": "Allegro MicroSystems",
+            "reference": "ACS724LLCTR-10AB",
+            "status": "production",
+            "description": "Hall-effect current sensor IC with integrated 1.2 mOhm conductor, +/-10 A, 200 mV/A, ratiometric",
+            "datasheetUrl": "https://www.allegromicro.com/-/media/files/datasheets/acs724-datasheet.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "ACS724LLCTR-10AB-T",
+                    "series": "ACS724",
+                    "case": "SOIC-8",
+                    "package": "LC, 8-pin SOICN",
+                    "qualification": "Automotive (AEC-Q100)"
+                },
+                "electrical": {
+                    "numberOfChannels": 1,
+                    "sensingElement": "hall",
+                    "loopType": "openLoop",
+                    "primaryConductor": "integrated",
+                    "primaryConductorResistance": 0.0012,
+                    "primaryConductorInductance": 2e-09,
+                    "measuringRange": {
+                        "minimum": -10,
+                        "maximum": 10
+                    },
+                    "output": {
+                        "type": "analogVoltage",
+                        "sensitivity": 0.2,
+                        "sensitivityError": [
+                            {
+                                "maximum": 0.015,
+                                "typical": 0.01,
+                                "reference": "ofReading",
+                                "ambientTemperature": {
+                                    "minimum": 25,
+                                    "maximum": 150
+                                }
+                            },
+                            {
+                                "maximum": 0.055,
+                                "typical": 0.045,
+                                "reference": "ofReading",
+                                "ambientTemperature": {
+                                    "minimum": -40,
+                                    "maximum": 25
+                                }
+                            }
+                        ],
+                        "zeroCurrentOutputRatio": 0.5,
+                        "ratiometric": true,
+                        "offsetVoltageError": [
+                            {
+                                "maximum": 0.01,
+                                "typical": 0.006,
+                                "ambientTemperature": {
+                                    "minimum": 25,
+                                    "maximum": 150
+                                }
+                            },
+                            {
+                                "maximum": 0.03,
+                                "typical": 0.008,
+                                "ambientTemperature": {
+                                    "minimum": -40,
+                                    "maximum": 25
+                                }
+                            }
+                        ],
+                        "outputConfiguration": "singleEnded"
+                    },
+                    "totalError": [
+                        {
+                            "maximum": 0.02,
+                            "typical": 0.01,
+                            "reference": "ofFullScale",
+                            "ambientTemperature": {
+                                "minimum": 25,
+                                "maximum": 150
+                            }
+                        },
+                        {
+                            "maximum": 0.06,
+                            "typical": 0.045,
+                            "reference": "ofFullScale",
+                            "ambientTemperature": {
+                                "minimum": -40,
+                                "maximum": 25
+                            }
+                        }
+                    ],
+                    "linearityError": 0.015,
+                    "bandwidth": 120000.0,
+                    "bandwidthCriterion": -3,
+                    "propagationDelay": 2e-06,
+                    "responseTime": 4e-06,
+                    "riseTime": 3e-06,
+                    "noiseDensity": 0.00015,
+                    "supply": {
+                        "minimumSupplyVoltage": 4.5,
+                        "maximumSupplyVoltage": 5.5,
+                        "dualSupply": false
+                    },
+                    "supplyCurrent": {
+                        "nominal": 0.01,
+                        "maximum": 0.014
+                    },
+                    "isolation": {
+                        "isolationType": "basic",
+                        "withstandVoltageRms": 2400,
+                        "withstandVoltageDuration": 60,
+                        "workingVoltage": 420,
+                        "workingVoltageRms": 297,
+                        "surgeVoltage": 6000,
+                        "creepage": 0.0042,
+                        "clearance": 0.0042,
+                        "comparativeTrackingIndex": 400,
+                        "materialGroup": "II"
+                    }
+                },
+                "thermal": {
+                    "operatingTemperature": {
+                        "minimum": -40,
+                        "maximum": 150
+                    }
+                },
+                "pinout": [
+                    {
+                        "pin": "1",
+                        "name": "IP+",
+                        "function": "currentSensePositive"
+                    },
+                    {
+                        "pin": "2",
+                        "name": "IP+",
+                        "function": "currentSensePositive"
+                    },
+                    {
+                        "pin": "3",
+                        "name": "IP–",
+                        "function": "currentSenseNegative"
+                    },
+                    {
+                        "pin": "4",
+                        "name": "IP–",
+                        "function": "currentSenseNegative"
+                    },
+                    {
+                        "pin": "5",
+                        "name": "GND",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "6",
+                        "name": "FILTER",
+                        "function": "other"
+                    },
+                    {
+                        "pin": "7",
+                        "name": "VIOUT",
+                        "function": "output"
+                    },
+                    {
+                        "pin": "8",
+                        "name": "VCC",
+                        "function": "supplyPositive"
+                    }
+                ],
+                "provenance": [
+                    {
+                        "source": "manufacturerDatasheet",
+                        "sourceName": "Allegro MicroSystems ACS724 data sheet ACS724-DS Rev. 25 (31 March 2026)",
+                        "sourceUrl": "https://www.allegromicro.com/-/media/files/datasheets/acs724-datasheet.pdf",
+                        "retrievedDate": "2026-10-18",
+                        "fields": [
+                            "datasheetInfo.part.partNumber",
+                            "datasheetInfo.part.series",
+                            "datasheetInfo.part.case",
+                            "datasheetInfo.part.package",
+                            "datasheetInfo.part.qualification",
+                            "datasheetInfo.electrical.numberOfChannels",
+                            "datasheetInfo.electrical.sensingElement",
+                            "datasheetInfo.electrical.loopType",
+                            "datasheetInfo.electrical.primaryConductor",
+                            "datasheetInfo.electrical.primaryConductorResistance",
+                            "datasheetInfo.electrical.primaryConductorInductance",
+                            "datasheetInfo.electrical.measuringRange",
+                            "datasheetInfo.electrical.output",
+                            "datasheetInfo.electrical.totalError",
+                            "datasheetInfo.electrical.linearityError",
+                            "datasheetInfo.electrical.bandwidth",
+                            "datasheetInfo.electrical.bandwidthCriterion",
+                            "datasheetInfo.electrical.propagationDelay",
+                            "datasheetInfo.electrical.responseTime",
+                            "datasheetInfo.electrical.riseTime",
+                            "datasheetInfo.electrical.noiseDensity",
+                            "datasheetInfo.electrical.supply",
+                            "datasheetInfo.electrical.supplyCurrent",
+                            "datasheetInfo.electrical.isolation",
+                            "datasheetInfo.thermal",
+                            "datasheetInfo.pinout"
+                        ],
+                        "verification": "valuesReadFromSource",
+                        "verificationDate": "2026-10-18"
+                    }
+                ]
+            }
+        }
+    },
+    "outputs": []
+}

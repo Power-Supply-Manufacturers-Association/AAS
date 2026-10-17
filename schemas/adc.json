@@ -202,6 +202,10 @@
                     "description": "Total power consumption at full rate, in W.",
                     "type": "number",
                     "minimum": 0
+                },
+                "isolation": {
+                    "description": "Barrier rating of an ISOLATED converter or delta-sigma modulator (TI AMC13xx, ADI AD740x / ADuM770x): PEAS isolationRating, the same block CTAS isolated controllers and AAS digitalIsolator carry. Absent on a non-isolated ADC.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/isolationRating"
                 }
             },
             "required": [

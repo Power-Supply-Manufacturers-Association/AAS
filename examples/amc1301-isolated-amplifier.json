@@ -1,0 +1,178 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "Reinforced isolated shunt amplifier, +/-250 mV input",
+            "deviceType": "differenceAmplifier",
+            "minimumChannels": 1,
+            "supplyVoltage": {
+                "minimum": 3.0,
+                "maximum": 5.5
+            }
+        }
+    },
+    "differenceAmplifier": {
+        "manufacturerInfo": {
+            "name": "Texas Instruments",
+            "reference": "AMC1301",
+            "status": "production",
+            "description": "Precision +/-250 mV input reinforced isolated amplifier, fixed gain 8.2",
+            "datasheetUrl": "https://www.ti.com/lit/ds/symlink/amc1301.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "AMC1301DWVR",
+                    "series": "AMC1301",
+                    "case": "SOIC-8",
+                    "package": "8-pin SOIC (DWV)"
+                },
+                "electrical": {
+                    "numberOfChannels": 1,
+                    "inputOffsetVoltage": 0.0002,
+                    "inputOffsetVoltageDrift": 3e-06,
+                    "inputBiasCurrent": -3e-05,
+                    "commonModeRejectionRatio": 93,
+                    "powerSupplyRejectionRatio": 94,
+                    "supply": {
+                        "minimumSupplyVoltage": 3.0,
+                        "maximumSupplyVoltage": 5.5,
+                        "dualSupply": false,
+                        "quiescentCurrentPerChannel": 0.0072
+                    },
+                    "gain": 8.2,
+                    "gainConfigurability": "fixed",
+                    "gainError": 0.003,
+                    "gainErrorDrift": 5e-05,
+                    "bandwidth": 210000.0,
+                    "outputType": "differential",
+                    "linearInputRange": {
+                        "minimum": -0.25,
+                        "maximum": 0.25
+                    },
+                    "nonlinearity": 0.0003,
+                    "outputSideSupply": {
+                        "minimumSupplyVoltage": 3.0,
+                        "maximumSupplyVoltage": 5.5,
+                        "dualSupply": false,
+                        "quiescentCurrentPerChannel": 0.0053
+                    },
+                    "isolation": {
+                        "isolationType": "reinforced",
+                        "withstandVoltageRms": 5000,
+                        "withstandVoltageDuration": 60,
+                        "workingVoltage": 1500,
+                        "workingVoltageRms": 1000,
+                        "transientVoltage": 7000,
+                        "impulseVoltage": 7700,
+                        "surgeVoltage": 10000,
+                        "cmti": 15000000000.0,
+                        "barrierCapacitance": 1.2e-12,
+                        "barrierResistance": 1000000000000.0,
+                        "creepage": 0.0085,
+                        "clearance": 0.0085,
+                        "distanceThroughInsulation": 2.1e-05,
+                        "comparativeTrackingIndex": 600,
+                        "materialGroup": "I",
+                        "pollutionDegree": "PD2",
+                        "ratedInsulationVoltage": [
+                            {
+                                "voltage": 600,
+                                "overvoltageCategory": "IV",
+                                "standard": "IEC 60664-1"
+                            },
+                            {
+                                "voltage": 1000,
+                                "overvoltageCategory": "III",
+                                "standard": "IEC 60664-1"
+                            }
+                        ]
+                    }
+                },
+                "thermal": {
+                    "operatingTemperature": {
+                        "minimum": -40,
+                        "maximum": 125
+                    },
+                    "thermalResistanceJunctionAmbient": 110.1,
+                    "maximumPowerDissipation": 0.099
+                },
+                "pinout": [
+                    {
+                        "pin": "1",
+                        "name": "VDD1",
+                        "function": "supplyPositive"
+                    },
+                    {
+                        "pin": "2",
+                        "name": "INP",
+                        "function": "inputPositive"
+                    },
+                    {
+                        "pin": "3",
+                        "name": "INN",
+                        "function": "inputNegative"
+                    },
+                    {
+                        "pin": "4",
+                        "name": "GND1",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "5",
+                        "name": "GND2",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "6",
+                        "name": "OUTN",
+                        "function": "outputComplementary"
+                    },
+                    {
+                        "pin": "7",
+                        "name": "OUTP",
+                        "function": "output"
+                    },
+                    {
+                        "pin": "8",
+                        "name": "VDD2",
+                        "function": "supplyPositive"
+                    }
+                ],
+                "provenance": [
+                    {
+                        "source": "manufacturerDatasheet",
+                        "sourceName": "Texas Instruments AMC1301 data sheet SBAS667G (Rev. G, April 2023)",
+                        "sourceUrl": "https://www.ti.com/lit/ds/symlink/amc1301.pdf",
+                        "retrievedDate": "2026-10-18",
+                        "fields": [
+                            "datasheetInfo.part.partNumber",
+                            "datasheetInfo.part.series",
+                            "datasheetInfo.part.case",
+                            "datasheetInfo.part.package",
+                            "datasheetInfo.electrical.numberOfChannels",
+                            "datasheetInfo.electrical.inputOffsetVoltage",
+                            "datasheetInfo.electrical.inputOffsetVoltageDrift",
+                            "datasheetInfo.electrical.inputBiasCurrent",
+                            "datasheetInfo.electrical.commonModeRejectionRatio",
+                            "datasheetInfo.electrical.powerSupplyRejectionRatio",
+                            "datasheetInfo.electrical.supply",
+                            "datasheetInfo.electrical.gain",
+                            "datasheetInfo.electrical.gainConfigurability",
+                            "datasheetInfo.electrical.gainError",
+                            "datasheetInfo.electrical.gainErrorDrift",
+                            "datasheetInfo.electrical.bandwidth",
+                            "datasheetInfo.electrical.outputType",
+                            "datasheetInfo.electrical.linearInputRange",
+                            "datasheetInfo.electrical.nonlinearity",
+                            "datasheetInfo.electrical.outputSideSupply",
+                            "datasheetInfo.electrical.isolation",
+                            "datasheetInfo.thermal",
+                            "datasheetInfo.pinout"
+                        ],
+                        "verification": "valuesReadFromSource",
+                        "verificationDate": "2026-10-18"
+                    }
+                ]
+            }
+        }
+    },
+    "outputs": []
+}

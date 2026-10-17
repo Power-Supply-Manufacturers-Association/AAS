@@ -289,7 +289,7 @@
         },
         "digitalInterface": {
             "title": "digitalInterface",
-            "description": "Host digital control/data interface of a programmable analog IC (PGA, ADC, DAC, digital potentiometer). 'upDown' = increment/decrement control (chip-select + up/down + increment pins, Microchip MCP40xx / ADI AD5220 style); 'pushButton' = debounced manual up/down button inputs (ADI AD5228, Maxim DS1809). An array because some parts offer more than one (e.g. parallel or pin-strap).",
+            "description": "Host digital control/data interface of a programmable analog IC (PGA, ADC, DAC, digital potentiometer). 'upDown' = increment/decrement control (chip-select + up/down + increment pins, Microchip MCP40xx / ADI AD5220 style); 'pushButton' = debounced manual up/down button inputs (ADI AD5228, Maxim DS1809). 'bitstreamCmos' / 'bitstreamLvds' = the 1-bit output of a delta-sigma modulator (with its clock), CMOS or LVDS levels (TI AMC1306M05 / AMC1306E05, ADI AD7403); 'manchester' = a Manchester-coded modulator bitstream that carries its own clock (TI AMC1306E25 / AMC1336 class). An array because some parts offer more than one (e.g. parallel or pin-strap).",
             "type": "string",
             "enum": [
                 "SPI",
@@ -301,7 +301,10 @@
                 "parallelLVDS",
                 "JESD204",
                 "upDown",
-                "pushButton"
+                "pushButton",
+                "bitstreamCmos",
+                "bitstreamLvds",
+                "manchester"
             ]
         },
         "referenceSource": {

@@ -1,0 +1,267 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "Reinforced quad-channel digital isolator, 3 forward / 1 reverse, 100 Mbps",
+            "deviceType": "digitalIsolator",
+            "minimumChannels": 4,
+            "supplyVoltage": {
+                "minimum": 2.25,
+                "maximum": 5.5
+            }
+        }
+    },
+    "digitalIsolator": {
+        "manufacturerInfo": {
+            "name": "Texas Instruments",
+            "reference": "ISO7741",
+            "status": "production",
+            "description": "High-speed, robust-EMC reinforced quad-channel digital isolator, 3 forward / 1 reverse",
+            "datasheetUrl": "https://www.ti.com/lit/ds/symlink/iso7741.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "ISO7741DWR",
+                    "series": "ISO7741",
+                    "case": "SOIC-16",
+                    "package": "16-pin SOIC-WB (DW)"
+                },
+                "electrical": {
+                    "forwardChannels": 3,
+                    "reverseChannels": 1,
+                    "interface": "generalPurpose",
+                    "barrierTechnology": "capacitive",
+                    "maximumDataRate": 100000000.0,
+                    "propagationDelay": {
+                        "minimum": 6e-09,
+                        "nominal": 1.27e-08,
+                        "maximum": 1.7e-08
+                    },
+                    "pulseWidthDistortion": 5.9e-09,
+                    "channelToChannelSkew": 4e-09,
+                    "partToPartSkew": 4.4e-09,
+                    "defaultOutputState": "high",
+                    "outputEnable": true,
+                    "side1Supply": {
+                        "minimumSupplyVoltage": 2.25,
+                        "maximumSupplyVoltage": 5.5,
+                        "supplyCurrent": [
+                            {
+                                "dataRate": 1000000.0,
+                                "supplyVoltage": 5,
+                                "current": {
+                                    "nominal": 0.0032,
+                                    "maximum": 0.0048
+                                }
+                            },
+                            {
+                                "dataRate": 10000000.0,
+                                "supplyVoltage": 5,
+                                "current": {
+                                    "nominal": 0.0037,
+                                    "maximum": 0.0055
+                                }
+                            },
+                            {
+                                "dataRate": 100000000.0,
+                                "supplyVoltage": 5,
+                                "current": {
+                                    "nominal": 0.0114,
+                                    "maximum": 0.0144
+                                }
+                            }
+                        ]
+                    },
+                    "side2Supply": {
+                        "minimumSupplyVoltage": 2.25,
+                        "maximumSupplyVoltage": 5.5,
+                        "supplyCurrent": [
+                            {
+                                "dataRate": 1000000.0,
+                                "supplyVoltage": 5,
+                                "current": {
+                                    "nominal": 0.0028,
+                                    "maximum": 0.0046
+                                }
+                            },
+                            {
+                                "dataRate": 10000000.0,
+                                "supplyVoltage": 5,
+                                "current": {
+                                    "nominal": 0.0042,
+                                    "maximum": 0.0064
+                                }
+                            },
+                            {
+                                "dataRate": 100000000.0,
+                                "supplyVoltage": 5,
+                                "current": {
+                                    "nominal": 0.021,
+                                    "maximum": 0.025
+                                }
+                            }
+                        ]
+                    },
+                    "isolation": {
+                        "isolationType": "reinforced",
+                        "withstandVoltageRms": 5000,
+                        "withstandVoltageDuration": 60,
+                        "workingVoltage": 2121,
+                        "workingVoltageRms": 1500,
+                        "transientVoltage": 8000,
+                        "impulseVoltage": 8000,
+                        "surgeVoltage": 12800,
+                        "cmti": 85000000000.0,
+                        "barrierCapacitance": 1e-12,
+                        "barrierResistance": 1000000000000.0,
+                        "creepage": 0.008,
+                        "clearance": 0.008,
+                        "distanceThroughInsulation": 1.7e-05,
+                        "comparativeTrackingIndex": 600,
+                        "materialGroup": "I",
+                        "pollutionDegree": "PD2",
+                        "ratedInsulationVoltage": [
+                            {
+                                "voltage": 300,
+                                "overvoltageCategory": "IV",
+                                "standard": "IEC 60664-1"
+                            },
+                            {
+                                "voltage": 600,
+                                "overvoltageCategory": "IV",
+                                "standard": "IEC 60664-1"
+                            },
+                            {
+                                "voltage": 1000,
+                                "overvoltageCategory": "III",
+                                "standard": "IEC 60664-1"
+                            }
+                        ]
+                    }
+                },
+                "thermal": {
+                    "operatingTemperature": {
+                        "minimum": -55,
+                        "maximum": 125
+                    },
+                    "thermalResistanceJunctionAmbient": 83.4
+                },
+                "pinout": [
+                    {
+                        "pin": "1",
+                        "name": "VCC1",
+                        "function": "supplyPositive"
+                    },
+                    {
+                        "pin": "2",
+                        "name": "GND1",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "3",
+                        "name": "INA",
+                        "function": "input"
+                    },
+                    {
+                        "pin": "4",
+                        "name": "INB",
+                        "function": "input"
+                    },
+                    {
+                        "pin": "5",
+                        "name": "INC",
+                        "function": "input"
+                    },
+                    {
+                        "pin": "6",
+                        "name": "OUTD",
+                        "function": "output"
+                    },
+                    {
+                        "pin": "7",
+                        "name": "EN1",
+                        "function": "enable",
+                        "polarity": "activeHigh"
+                    },
+                    {
+                        "pin": "8",
+                        "name": "GND1",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "9",
+                        "name": "GND2",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "10",
+                        "name": "EN2",
+                        "function": "enable",
+                        "polarity": "activeHigh"
+                    },
+                    {
+                        "pin": "11",
+                        "name": "IND",
+                        "function": "input"
+                    },
+                    {
+                        "pin": "12",
+                        "name": "OUTC",
+                        "function": "output"
+                    },
+                    {
+                        "pin": "13",
+                        "name": "OUTB",
+                        "function": "output"
+                    },
+                    {
+                        "pin": "14",
+                        "name": "OUTA",
+                        "function": "output"
+                    },
+                    {
+                        "pin": "15",
+                        "name": "GND2",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "16",
+                        "name": "VCC2",
+                        "function": "supplyPositive"
+                    }
+                ],
+                "provenance": [
+                    {
+                        "source": "manufacturerDatasheet",
+                        "sourceName": "Texas Instruments ISO774x data sheet SLLSEP4K (Rev. K, August 2026)",
+                        "sourceUrl": "https://www.ti.com/lit/ds/symlink/iso7741.pdf",
+                        "retrievedDate": "2026-10-18",
+                        "fields": [
+                            "datasheetInfo.part.partNumber",
+                            "datasheetInfo.part.series",
+                            "datasheetInfo.part.case",
+                            "datasheetInfo.part.package",
+                            "datasheetInfo.electrical.forwardChannels",
+                            "datasheetInfo.electrical.reverseChannels",
+                            "datasheetInfo.electrical.interface",
+                            "datasheetInfo.electrical.barrierTechnology",
+                            "datasheetInfo.electrical.maximumDataRate",
+                            "datasheetInfo.electrical.propagationDelay",
+                            "datasheetInfo.electrical.pulseWidthDistortion",
+                            "datasheetInfo.electrical.channelToChannelSkew",
+                            "datasheetInfo.electrical.partToPartSkew",
+                            "datasheetInfo.electrical.defaultOutputState",
+                            "datasheetInfo.electrical.outputEnable",
+                            "datasheetInfo.electrical.side1Supply",
+                            "datasheetInfo.electrical.side2Supply",
+                            "datasheetInfo.electrical.isolation",
+                            "datasheetInfo.thermal",
+                            "datasheetInfo.pinout"
+                        ],
+                        "verification": "valuesReadFromSource",
+                        "verificationDate": "2026-10-18"
+                    }
+                ]
+            }
+        }
+    },
+    "outputs": []
+}

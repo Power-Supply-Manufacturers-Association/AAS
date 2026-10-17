@@ -163,6 +163,23 @@
                                 "singleEnded",
                                 "differential"
                             ]
+                        },
+                        "linearInputRange": {
+                            "description": "Specified linear differential input range (full-scale), in V, as signed limits ({-0.25, 0.25} for a +/-250 mV isolated shunt amplifier). Distinct from inputCommonModeVoltageRange.",
+                            "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                        },
+                        "nonlinearity": {
+                            "description": "Gain nonlinearity over linearInputRange, as a fraction (maximum magnitude; 0.0003 = 0.03 %).",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "outputSideSupply": {
+                            "description": "ISOLATED amplifiers only: supply window of the output side of the barrier (VDD2). `supply` then holds the input / high side (VDD1).",
+                            "$ref": "./utils.json#/$defs/supply"
+                        },
+                        "isolation": {
+                            "description": "Barrier rating of an ISOLATED amplifier (TI AMC1301 / AMC1311 / AMC3301, ADI ADuM4190 class): PEAS isolationRating. Absent on a non-isolated difference amplifier.",
+                            "$ref": "https://psma.com/peas/utils.json#/$defs/isolationRating"
                         }
                     },
                     "required": [

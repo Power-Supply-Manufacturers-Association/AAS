@@ -1,0 +1,302 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/digitalIsolator.json",
+    "title": "digitalIsolator",
+    "description": "Digital isolator IC component data: logic channels carried across a galvanic-isolation barrier (capacitive, inductive or GMR), optionally with an integrated isolated power converter or a bus transceiver. It has two supply domains (side 1 / side 2), channel directions, a data rate, timing, a default output state and a barrier rating. The barrier rating is the shared PEAS isolationRating, placed at electrical.isolation exactly as on CTAS isolated controllers so one checker reads both. The presence of the 'digitalIsolator' field at the top level of an AAS document discriminates the family. Optocouplers, isolated gate drivers (CTAS gateDriver) and isolated amplifiers / modulators (AAS differenceAmplifier / adc with electrical.isolation) are NOT in this family. All quantities SI base. Pin roles use the PEAS pinFunction vocabulary (input / output / enable / vdd / ground).",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "digitalIsolatorManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
+            },
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
+        },
+        "substitutesInfo": {
+            "description": "Replacement parts for this one: manufacturer-named successors and second sources (PEAS substituteInfo; same rules as every other family).",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/substituteInfo"
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "description": "A sourced part: carries its manufacturer + datasheet.",
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "description": "A pre-sourcing seed: an empty digitalIsolator object (family-wide seed convention).",
+            "maxProperties": 0
+        }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "digitalIsolatorDatasheetInfo",
+            "description": "All information extracted from the digital-isolator datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "pinout": {
+                    "description": "Per-pin function map (see utils pinout).",
+                    "$ref": "./utils.json#/$defs/pinout"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
+            },
+            "required": [
+                "part",
+                "electrical"
+            ]
+        },
+        "electrical": {
+            "title": "digitalIsolatorElectrical",
+            "description": "Digital-isolator electricals. Channel directions are counted from side 1 (the side with VCC1/VDD1): a forward channel has its input on side 1 and its output on side 2, a reverse channel the opposite; the total channel count is derived (forward + reverse + bidirectional) and not stored. Timing values are the datasheet's 5 V-supply figures where several supply voltages are tabulated (the condition is in provenance), and are per channel.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "forwardChannels": {
+                    "description": "Number of unidirectional channels from side 1 to side 2.",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "reverseChannels": {
+                    "description": "Number of unidirectional channels from side 2 to side 1.",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "bidirectionalChannels": {
+                    "description": "Number of bidirectional (open-drain, I2C/SMBus/PMBus style) channels.",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "interface": {
+                    "description": "Signal interface the isolator is built for. 'generalPurpose' = logic-level CMOS channels; the bus values mark isolators made for (or integrating the transceiver of) that bus.",
+                    "type": "string",
+                    "enum": [
+                        "generalPurpose",
+                        "i2c",
+                        "smbus",
+                        "pmbus",
+                        "spi",
+                        "usb",
+                        "lvds",
+                        "can",
+                        "rs485",
+                        "rs422",
+                        "rs232",
+                        "lin"
+                    ]
+                },
+                "barrierTechnology": {
+                    "description": "How the signal crosses the barrier. 'capacitive' = SiO2 capacitor barrier (TI ISO77xx, Silicon Labs Si86xx); 'inductive' = on-chip transformer / coreless transformer (ADI iCoupler, Infineon CT); 'giantMagnetoresistive' = GMR coupler (NVE IsoLoop). Optocouplers are not digital isolators in this family.",
+                    "type": "string",
+                    "enum": [
+                        "capacitive",
+                        "inductive",
+                        "giantMagnetoresistive"
+                    ]
+                },
+                "maximumDataRate": {
+                    "description": "Maximum specified data rate per channel, in bit/s.",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "propagationDelay": {
+                    "description": "Propagation delay t_PLH / t_PHL, in s (nominal = typical, minimum / maximum = guaranteed limits).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "pulseWidthDistortion": {
+                    "description": "Pulse-width distortion |t_PHL - t_PLH|, in s (maximum).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "channelToChannelSkew": {
+                    "description": "Channel-to-channel output skew t_sk(o), same-direction channels, in s (maximum).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "partToPartSkew": {
+                    "description": "Part-to-part skew t_sk(pp), in s (maximum).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "defaultOutputState": {
+                    "description": "Output level when the input side loses power or its input is open (TI: no suffix = high, 'F' suffix = low).",
+                    "type": "string",
+                    "enum": [
+                        "high",
+                        "low"
+                    ]
+                },
+                "outputEnable": {
+                    "description": "True if the part has output-enable pins that put the outputs in high impedance.",
+                    "type": "boolean"
+                },
+                "side1Supply": {
+                    "$ref": "#/$defs/isolatorSideSupply"
+                },
+                "side2Supply": {
+                    "$ref": "#/$defs/isolatorSideSupply"
+                },
+                "integratedIsolatedPower": {
+                    "description": "Integrated isolated DC/DC (ADI isoPower, TI ISOW): power transferred across the barrier from side 1 to side 2. Absent when the part has none.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "outputVoltage": {
+                            "description": "Isolated output voltage on side 2, in V.",
+                            "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                        },
+                        "maximumOutputCurrent": {
+                            "description": "Maximum load current available from the isolated output, in A.",
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "required": [
+                        "outputVoltage"
+                    ]
+                },
+                "isolation": {
+                    "description": "Barrier rating (PEAS isolationRating, the same block CTAS isolated controllers carry).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/isolationRating"
+                }
+            },
+            "required": [
+                "forwardChannels",
+                "reverseChannels"
+            ],
+            "anyOf": [
+                {
+                    "description": "At least one channel exists.",
+                    "properties": {
+                        "forwardChannels": {
+                            "minimum": 1
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "reverseChannels": {
+                            "minimum": 1
+                        }
+                    }
+                },
+                {
+                    "properties": {
+                        "bidirectionalChannels": {
+                            "minimum": 1
+                        }
+                    },
+                    "required": [
+                        "bidirectionalChannels"
+                    ]
+                }
+            ]
+        },
+        "isolatorSideSupply": {
+            "title": "isolatorSideSupply",
+            "description": "Supply of one side of the barrier (VCC1 / VDD1 on side 1, VCC2 / VDD2 on side 2). Supply current of a digital isolator depends on the data rate and the supply voltage, so it is a list of datasheet rows, never one number.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "minimumSupplyVoltage": {
+                    "description": "Minimum operating supply voltage of this side, in V.",
+                    "type": "number"
+                },
+                "maximumSupplyVoltage": {
+                    "description": "Maximum operating supply voltage of this side, in V.",
+                    "type": "number"
+                },
+                "supplyCurrent": {
+                    "description": "Supply-current rows of this side, as printed: one entry per (data rate, supply voltage) row of the supply-current table with all channels switching.",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "dataRate": {
+                                "description": "Data rate of the row, in bit/s (0 = DC signal).",
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "supplyVoltage": {
+                                "description": "Supply voltage of the row, in V.",
+                                "type": "number",
+                                "exclusiveMinimum": 0
+                            },
+                            "current": {
+                                "description": "Supply current of this side, in A (nominal = typical column, maximum = maximum column).",
+                                "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                            }
+                        },
+                        "required": [
+                            "dataRate",
+                            "current"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

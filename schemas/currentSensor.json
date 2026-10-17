@@ -1,0 +1,592 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/currentSensor.json",
+    "title": "currentSensor",
+    "description": "Active, magnetic-field-based current sensor component data: an IC or a module that converts a primary current into an isolated or non-isolated voltage, current or digital output (Hall / fluxgate / magnetoresistive, open or closed loop; integrated-conductor ICs such as Allegro ACS7xx and aperture transducers such as LEM LA). Passive current transformers and Rogowski coils are MAS magnetics; shunt amplifiers are CTAS currentSenseAmplifier or AAS differenceAmplifier (isolated); magnetic FIELD sensors (output per tesla, not per ampere) are out of scope. The presence of the 'currentSensor' field at the top level of an AAS document discriminates the family. Errors are fractions; every other quantity SI base. Pin roles use PEAS pinFunction (currentSensePositive / currentSenseNegative for IP+ / IP-).",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "currentSensorManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
+            },
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
+        },
+        "substitutesInfo": {
+            "description": "Replacement parts for this one: manufacturer-named successors and second sources (PEAS substituteInfo; same rules as every other family).",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/substituteInfo"
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "description": "A sourced part: carries its manufacturer + datasheet.",
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "description": "A pre-sourcing seed: an empty currentSensor object (family-wide seed convention).",
+            "maxProperties": 0
+        }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "currentSensorDatasheetInfo",
+            "description": "All information extracted from the current-sensor / current-transducer datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "pinout": {
+                    "description": "Per-pin function map (see utils pinout).",
+                    "$ref": "./utils.json#/$defs/pinout"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
+            },
+            "required": [
+                "part",
+                "electrical"
+            ]
+        },
+        "electrical": {
+            "title": "currentSensorElectrical",
+            "description": "Current-sensor electricals. Primary-side quantities (measuringRange, primaryNominalCurrent, errors referred to the primary) are in A; the output is a closed oneOf on its pinned `type`. Errors are fractions (0.02 = 2 %). Direction (bidirectional / unidirectional) is derived from measuringRange.minimum < 0 and not stored.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numberOfChannels": {
+                    "description": "Number of independent current inputs.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "sensingElement": {
+                    "description": "Magnetic-field sensing element: 'hall', 'fluxgate', 'anisotropicMagnetoresistive' (AMR), 'giantMagnetoresistive' (GMR), 'tunnelMagnetoresistive' (TMR).",
+                    "type": "string",
+                    "enum": [
+                        "hall",
+                        "fluxgate",
+                        "anisotropicMagnetoresistive",
+                        "giantMagnetoresistive",
+                        "tunnelMagnetoresistive"
+                    ]
+                },
+                "loopType": {
+                    "description": "'openLoop' - the sensor output is the amplified field reading. 'closedLoop' - a secondary winding drives the core flux to zero (compensated) and the secondary current is the output.",
+                    "type": "string",
+                    "enum": [
+                        "openLoop",
+                        "closedLoop"
+                    ]
+                },
+                "primaryConductor": {
+                    "description": "How the measured current reaches the sensor. 'integrated' - through a conductor inside the package (Allegro ACS7xx lead frame); 'aperture' - through a hole the user's cable or busbar passes (LEM LA, HO); 'externalConductor' - the sensor sits on or beside a PCB trace / busbar that is not part of the part (coreless field-gradient sensors).",
+                    "type": "string",
+                    "enum": [
+                        "integrated",
+                        "aperture",
+                        "externalConductor"
+                    ]
+                },
+                "primaryAperture": {
+                    "$ref": "#/$defs/primaryAperture"
+                },
+                "primaryConductorResistance": {
+                    "description": "Resistance of the integrated primary conductor, in Ohm (25 C).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "primaryConductorInductance": {
+                    "description": "Inductance of the integrated primary conductor, in H.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "primaryNominalCurrent": {
+                    "description": "Primary nominal RMS current I_PN, in A.",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "measuringRange": {
+                    "description": "Primary current measuring range, in A, as absolute signed limits: {minimum -10, maximum 10} for a +/-10 A bidirectional part, {minimum 0, maximum 20} for a unidirectional one. 'nominal' is not used.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "output": {
+                    "$ref": "#/$defs/output"
+                },
+                "totalError": {
+                    "description": "Total (accuracy) error rows as printed, one per stated condition.",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/$defs/errorRow"
+                    }
+                },
+                "linearityError": {
+                    "description": "Linearity error / nonlinearity over the measuring range, as a fraction (maximum magnitude).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "bandwidth": {
+                    "description": "Signal bandwidth, in Hz, at the attenuation in bandwidthCriterion.",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "bandwidthCriterion": {
+                    "description": "Attenuation that defines bandwidth, in dB (-3 for Allegro, -1 for LEM).",
+                    "type": "number",
+                    "exclusiveMaximum": 0
+                },
+                "propagationDelay": {
+                    "description": "Delay to the first threshold of the output after a primary step, in s (LEM t_D10 to 10 %, Allegro t_pd at 20 %), as printed.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "responseTime": {
+                    "description": "Delay to 90 % of the final output after a primary step, in s (LEM t_D90, Allegro t_RESPONSE).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "riseTime": {
+                    "description": "Output rise time 10 % to 90 %, in s.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "noiseDensity": {
+                    "description": "Input-referred current-noise density, in A/sqrt(Hz).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "overcurrentFaultOutput": {
+                    "description": "True if the part has a fast over-current fault output pin.",
+                    "type": "boolean"
+                },
+                "supply": {
+                    "description": "Supply window (AAS supply; total (V+)-(V-) span, so a +/-12...15 V +/-5 % transducer is 22.8...31.5 V with dualSupply true).",
+                    "$ref": "./utils.json#/$defs/supply"
+                },
+                "supplyCurrent": {
+                    "description": "Device supply current, in A (nominal = typical, minimum / maximum as printed). For a closed-loop transducer, the consumption EXCLUDING the secondary (output) current, which the datasheet adds as '+ I_S'. Mutually exclusive with supply.quiescentCurrentPerChannel.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "isolation": {
+                    "description": "Primary-to-secondary barrier rating (PEAS isolationRating). Absent for a sensor without a rated barrier.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/isolationRating"
+                }
+            },
+            "required": [
+                "measuringRange",
+                "output"
+            ],
+            "allOf": [
+                {
+                    "$comment": "primaryAperture describes the hole of an aperture-type sensor; any other primaryConductor has none.",
+                    "if": {
+                        "required": [
+                            "primaryAperture"
+                        ]
+                    },
+                    "then": {
+                        "required": [
+                            "primaryConductor"
+                        ],
+                        "properties": {
+                            "primaryConductor": {
+                                "const": "aperture"
+                            }
+                        }
+                    }
+                },
+                {
+                    "$comment": "supplyCurrent (device figure) and supply.quiescentCurrentPerChannel describe the same current; a record carries at most one of them.",
+                    "not": {
+                        "required": [
+                            "supplyCurrent",
+                            "supply"
+                        ],
+                        "properties": {
+                            "supply": {
+                                "required": [
+                                    "quiescentCurrentPerChannel"
+                                ]
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "primaryAperture": {
+            "title": "primaryAperture",
+            "description": "Primary through-hole of an aperture-type sensor. A CLOSED oneOf on the pinned `shape`.",
+            "oneOf": [
+                {
+                    "title": "roundAperture",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "shape": {
+                            "const": "round"
+                        },
+                        "diameter": {
+                            "description": "Hole diameter, in m.",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [
+                        "shape",
+                        "diameter"
+                    ]
+                },
+                {
+                    "title": "rectangularAperture",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "shape": {
+                            "const": "rectangular"
+                        },
+                        "width": {
+                            "description": "Hole width (longer side), in m.",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "height": {
+                            "description": "Hole height (shorter side), in m.",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [
+                        "shape",
+                        "width",
+                        "height"
+                    ]
+                }
+            ]
+        },
+        "output": {
+            "title": "currentSensorOutput",
+            "description": "Output of the sensor. A CLOSED oneOf on the pinned `type`.",
+            "oneOf": [
+                {
+                    "title": "analogVoltageOutput",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "type": {
+                            "const": "analogVoltage"
+                        },
+                        "sensitivity": {
+                            "description": "Nominal sensitivity, in V/A.",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "sensitivityError": {
+                            "description": "Sensitivity error rows (fractions).",
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "$ref": "#/$defs/errorRow"
+                            }
+                        },
+                        "zeroCurrentOutputVoltage": {
+                            "description": "Output voltage at zero primary current, in V (absolute). Omitted when the datasheet states it only relative to the supply; then zeroCurrentOutputRatio holds it.",
+                            "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                        },
+                        "zeroCurrentOutputRatio": {
+                            "description": "Output at zero current as a fraction of the supply voltage (0.5 for an Allegro bidirectional 'VCC x 0.5').",
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "ratiometric": {
+                            "description": "True if sensitivity and zero-current output scale with the supply voltage.",
+                            "type": "boolean"
+                        },
+                        "offsetVoltageError": {
+                            "description": "Offset (zero-current) voltage error rows, one per stated condition.",
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "maximum": {
+                                        "description": "Magnitude of the guaranteed +/- offset limit, in V.",
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "typical": {
+                                        "description": "Typical offset magnitude, in V.",
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "supplyRailVoltage": {
+                                        "description": "Supply condition of the row, in V, as the magnitude of each rail the datasheet prints (12 for '+/-12 V'; 5 for a single 5 V supply).",
+                                        "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                                    },
+                                    "ambientTemperature": {
+                                        "description": "Ambient-temperature condition of the row, in degrees Celsius (a range, or nominal for a single temperature).",
+                                        "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                                    }
+                                },
+                                "anyOf": [
+                                    {
+                                        "required": [
+                                            "maximum"
+                                        ]
+                                    },
+                                    {
+                                        "required": [
+                                            "typical"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "outputConfiguration": {
+                            "description": "'singleEnded' or 'differential' output.",
+                            "type": "string",
+                            "enum": [
+                                "singleEnded",
+                                "differential"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "sensitivity"
+                    ]
+                },
+                {
+                    "title": "analogCurrentOutput",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Current output (closed-loop transducers): the secondary current is the primary current divided by the turns ratio; the user converts it with a measuring resistor R_M.",
+                    "properties": {
+                        "type": {
+                            "const": "analogCurrent"
+                        },
+                        "conversionRatio": {
+                            "description": "Secondary-to-primary current ratio I_S / I_P (N_P/N_S; 0.001 for 1:1000).",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "secondaryNominalCurrent": {
+                            "description": "Secondary nominal RMS current I_SN, in A.",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        },
+                        "offsetCurrent": {
+                            "description": "Electrical offset current at I_P = 0, in A (secondary side; minimum / maximum as printed with signs).",
+                            "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                        },
+                        "secondaryCoilResistance": {
+                            "description": "Secondary winding resistance R_S at the stated temperatures.",
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "resistance": {
+                                        "description": "Secondary winding resistance, in Ohm.",
+                                        "type": "number",
+                                        "exclusiveMinimum": 0
+                                    },
+                                    "ambientTemperature": {
+                                        "description": "Ambient temperature, in degrees Celsius.",
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "resistance"
+                                ]
+                            }
+                        },
+                        "measuringResistance": {
+                            "description": "Allowed measuring-resistor window R_M, one entry per (supply, primary current, temperature) cell of the datasheet table. A cell whose footnote limits the measuring range records the LIMITED current as primaryCurrent.",
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "supplyRailVoltage": {
+                                        "description": "Supply condition of the row, in V, as the magnitude of each rail the datasheet prints (12 for '+/-12 V'; 5 for a single 5 V supply).",
+                                        "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                                    },
+                                    "ambientTemperature": {
+                                        "description": "Ambient-temperature condition of the row, in degrees Celsius (a range, or nominal for a single temperature).",
+                                        "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                                    },
+                                    "primaryCurrent": {
+                                        "description": "Primary current magnitude the cell is stated for, in A.",
+                                        "type": "number",
+                                        "exclusiveMinimum": 0
+                                    },
+                                    "minimum": {
+                                        "description": "Minimum measuring resistance, in Ohm.",
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "maximum": {
+                                        "description": "Maximum measuring resistance, in Ohm.",
+                                        "type": "number",
+                                        "minimum": 0
+                                    }
+                                },
+                                "required": [
+                                    "primaryCurrent",
+                                    "minimum",
+                                    "maximum"
+                                ]
+                            }
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "conversionRatio"
+                    ]
+                },
+                {
+                    "title": "digitalOutput",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "type": {
+                            "const": "digital"
+                        },
+                        "digitalInterface": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "$ref": "./utils.json#/$defs/digitalInterface"
+                            }
+                        },
+                        "resolution": {
+                            "description": "Output resolution, in bits.",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "lsbCurrent": {
+                            "description": "Primary current per LSB, in A.",
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "digitalInterface"
+                    ]
+                }
+            ]
+        },
+        "errorRow": {
+            "title": "currentSensorErrorRow",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "maximum": {
+                    "description": "Error limit as a fraction (magnitude of the guaranteed +/- limit; the typical when only a typical is printed, flagged in provenance).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "typical": {
+                    "description": "Typical error as a fraction (magnitude).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "reference": {
+                    "description": "What the fraction is OF: 'ofReading' - of the measured current; 'ofNominalCurrent' - of I_PN (LEM 'error @ I_PN'); 'ofFullScale' - of the range limit (Allegro 'percentage of I_P with I_P = I_PR(max)').",
+                    "type": "string",
+                    "enum": [
+                        "ofReading",
+                        "ofNominalCurrent",
+                        "ofFullScale"
+                    ]
+                },
+                "supplyRailVoltage": {
+                    "description": "Supply condition of the row, in V, as the magnitude of each rail the datasheet prints (12 for '+/-12 V'; 5 for a single 5 V supply).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "ambientTemperature": {
+                    "description": "Ambient-temperature condition of the row, in degrees Celsius (a range, or nominal for a single temperature).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                }
+            },
+            "required": [
+                "reference"
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "maximum"
+                    ]
+                },
+                {
+                    "required": [
+                        "typical"
+                    ]
+                }
+            ]
+        }
+    }
+}

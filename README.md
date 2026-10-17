@@ -22,10 +22,15 @@ AAS is the home for **domain-agnostic analog building blocks**:
 | `adc` | ADS1115, AD7124, ADS8688, AD9226 |
 | `dac` | AD5681, DAC8568, MCP4725, AD9744 |
 | `digitalPotentiometer` | AD5160, MCP41xx, TPL0401, DS1809 |
+| `digitalIsolator` | ISO7741, ADuM1401, Si8641, ISOW7741 (isoPower), ISO1042 (isolated CAN) |
+| `currentSensor` | ACS724, TMCS1100, MLX91220, LEM LA 55-P (closed-loop transducer) |
+
+Isolated amplifiers and isolated delta-sigma modulators / ADCs (AMC1301, AMC1306, AD7403, ADuM7701) are `differenceAmplifier` / `adc` carrying `electrical.isolation`, the shared PEAS `isolationRating` block that digital isolators, current sensors and CTAS isolated controllers also use.
 
 ## What does NOT belong here
 
-- **Power-control ICs** (PWM / LLC / PFC / phase-shift / sync-rectifier controllers, gate drivers, current-sense & isolated amplifiers, voltage references, shunt regulators, hot-swap / eFuse) → **CTAS**.
+- **Power-control ICs** (PWM / LLC / PFC / phase-shift / sync-rectifier controllers, gate drivers incl. isolated ones, non-isolated shunt current-sense amplifiers, voltage references, shunt regulators, hot-swap / eFuse) → **CTAS**.
+- **Passive current transformers and Rogowski coils** → **MAS**. **Optocouplers** are not catalogued yet (a later family will reuse PEAS `isolationRating`). Magnetic **field** sensors (output per tesla) are out of scope.
 - **Discrete power semiconductors** (MOSFET / diode / IGBT / BJT) → **SAS**.
 
 The boundary test: if the part's reason-for-being is *controlling or sensing a power converter*, it is CTAS. A generic op amp / comparator / ADC that shows up equally in audio, instrumentation and sensor front-ends is AAS.
@@ -35,7 +40,7 @@ The boundary test: if the part's reason-for-being is *controlling or sensing a p
 ```
 AAS document
   inputs       designRequirements seed (+ optional operatingPoints)
-  <family>     exactly one of the 15 families (the table above plus the ideal behavioural blocks `multiplier`, `summer`, `integrator`) (the field name is the discriminator)
+  <family>     exactly one of the 17 families (the table above plus the ideal behavioural blocks `multiplier`, `summer`, `integrator`) (the field name is the discriminator)
   outputs[]    per-operating-point results (powerDissipation, thermal, selection)
 ```
 

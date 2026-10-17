@@ -64,3 +64,17 @@ TEST_CASE("digital potentiometer is not lowered yet and throws, never falls back
     CHECK_THROWS_WITH(AAS::aas_to_cias(doc, PEAS::Fidelity(PEAS::Fidelity::Origin::REQUIREMENTS), "U4"),
                       ContainsSubstring("no supported block"));
 }
+
+TEST_CASE("digital isolator is not lowered and throws, never falls back", "[aas]") {
+    // A digital isolator has no behavioural lowering; the converter must refuse it loudly.
+    json doc = {{"analog", {{"digitalIsolator", {{"manufacturerInfo", {{"name", "Texas Instruments"}}}}}}}};
+    CHECK_THROWS_WITH(AAS::aas_to_cias(doc, PEAS::Fidelity(PEAS::Fidelity::Origin::REQUIREMENTS), "U5"),
+                      ContainsSubstring("no supported block"));
+}
+
+TEST_CASE("current sensor is not lowered and throws, never falls back", "[aas]") {
+    // A current sensor has no behavioural lowering; the converter must refuse it loudly.
+    json doc = {{"analog", {{"currentSensor", {{"manufacturerInfo", {{"name", "Allegro MicroSystems"}}}}}}}};
+    CHECK_THROWS_WITH(AAS::aas_to_cias(doc, PEAS::Fidelity(PEAS::Fidelity::Origin::REQUIREMENTS), "U6"),
+                      ContainsSubstring("no supported block"));
+}

@@ -26,6 +26,8 @@
                         "adc",
                         "dac",
                         "digitalPotentiometer",
+                        "digitalIsolator",
+                        "currentSensor",
                         "multiplier",
                         "integrator",
                         "summer"
