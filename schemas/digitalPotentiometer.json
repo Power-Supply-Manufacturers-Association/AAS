@@ -1,0 +1,318 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://psma.com/aas/digitalPotentiometer.json",
+    "title": "digitalPotentiometer",
+    "description": "Digital potentiometer / digital rheostat IC (DigiPOT) component data: a CMOS resistor ladder whose tap is selected by a digital interface. It is an IC, not a resistive track: it has a supply window, a host interface, a tap count, a wiper memory and a pinout, and no shaft, travel, track material or power rating. totalResistance, resistanceTolerance and temperatureCoefficient use the same names and units as RAS potentiometer.json so a cross-family query reads the same words; wiper resistance is wiperResistance (a dimensionWithTolerance: a digital wiper is a CMOS switch with typical and maximum columns) rather than RAS wiper.resistance. The definitions are local: AAS may $ref PEAS only. The presence of the 'digitalPotentiometer' field at the top level of an AAS document discriminates the family. Temperature coefficients are in ppm/K (the RAS resistive convention); nonlinearities in LSB; harmonic distortion and log-taper steps in dB (the AAS convention); every other quantity is SI base. Pin roles use the PEAS pinFunction values terminalA / terminalB / wiper.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "manufacturerInfo": {
+            "title": "digitalPotentiometerManufacturerInfo",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/name"
+                },
+                "reference": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/reference"
+                },
+                "status": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/status"
+                },
+                "description": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/description"
+                },
+                "orderCode": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/orderCode"
+                },
+                "datasheetUrl": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/datasheetUrl"
+                },
+                "family": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/family"
+                },
+                "series": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/series"
+                },
+                "spiceModel": {
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/manufacturerInfo/properties/spiceModel"
+                },
+                "datasheetInfo": {
+                    "$ref": "#/$defs/datasheetInfo"
+                }
+            },
+            "required": [
+                "name",
+                "datasheetInfo"
+            ]
+        },
+        "distributorsInfo": {
+            "description": "Where to buy this component.",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/distributorInfo"
+            }
+        },
+        "substitutesInfo": {
+            "description": "Replacement parts for this one: manufacturer-named successors and second sources (PEAS substituteInfo; same rules as every other family).",
+            "type": "array",
+            "items": {
+                "$ref": "https://psma.com/peas/utils.json#/$defs/substituteInfo"
+            }
+        }
+    },
+    "anyOf": [
+        {
+            "description": "A sourced part: carries its manufacturer + datasheet.",
+            "required": [
+                "manufacturerInfo"
+            ]
+        },
+        {
+            "description": "A pre-sourcing seed: an empty digitalPotentiometer object (family-wide seed convention).",
+            "maxProperties": 0
+        }
+    ],
+    "$defs": {
+        "datasheetInfo": {
+            "title": "digitalPotentiometerDatasheetInfo",
+            "description": "All information extracted from the digital-potentiometer datasheet.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "part": {
+                    "$ref": "./utils.json#/$defs/part"
+                },
+                "electrical": {
+                    "$ref": "#/$defs/electrical"
+                },
+                "thermal": {
+                    "$ref": "./utils.json#/$defs/thermal"
+                },
+                "mechanical": {
+                    "$ref": "./utils.json#/$defs/mechanical"
+                },
+                "pinout": {
+                    "description": "Per-pin function map (see utils pinout).",
+                    "$ref": "./utils.json#/$defs/pinout"
+                },
+                "provenance": {
+                    "description": "Data-provenance trail (see provenance).",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/provenance"
+                }
+            },
+            "required": [
+                "part",
+                "electrical"
+            ]
+        },
+        "electrical": {
+            "title": "digitalPotentiometerElectrical",
+            "description": "Digital-potentiometer electricals. Values are per channel (every channel of one part has the same ladder) unless the field says 'device'. One orderable code is one resistance option: totalResistance is a single value with its tolerance band, never the list of options a generic part number is offered in.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "numberOfChannels": {
+                    "description": "Number of independent resistor ladders (potentiometers or rheostats) in the package.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "configuration": {
+                    "description": "'potentiometer' - three terminals per channel (A, B and wiper W): a voltage divider that can also be wired as a rheostat. 'rheostat' - two terminals per channel (one end and the wiper; the other end is not brought out), so it can only be a variable resistor.",
+                    "type": "string",
+                    "enum": [
+                        "potentiometer",
+                        "rheostat"
+                    ]
+                },
+                "numberOfPositions": {
+                    "description": "Number of wiper positions (taps) per channel, as the datasheet states it (256 for an 8-bit part, 129 for a 7-bit Microchip part that reaches both ends, 33 for the AD5201). Resolution in bits is derived (ceil(log2(numberOfPositions))) and not stored.",
+                    "type": "integer",
+                    "minimum": 2
+                },
+                "totalResistance": {
+                    "description": "End-to-end resistance R_AB of one ladder, in Ohm. For a rheostat, the full-scale resistance R_WB at the end code.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "resistanceTolerance": {
+                    "description": "Tolerance on totalResistance as a fraction (0.2 = +/-20%). Digital ladders are typically +/-20...30% unless trimmed (+/-1% parts).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "temperatureCoefficient": {
+                    "description": "Temperature coefficient of totalResistance (rheostat mode), in ppm/K.",
+                    "type": "number"
+                },
+                "ratiometricTemperatureCoefficient": {
+                    "description": "Temperature coefficient of the divider ratio in potentiometer mode, in ppm/K. Much smaller than temperatureCoefficient because the ladder sections track.",
+                    "type": "number"
+                },
+                "wiperResistance": {
+                    "description": "Wiper resistance R_W (switch on-resistance in series with the tap), in Ohm.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "terminalVoltageRange": {
+                    "description": "Allowed voltage on the A, B and W terminals, in V, as ABSOLUTE volts referred to ground (minimum = most negative, maximum = most positive), e.g. {-16.5, +16.5} for a dual-supply part that prints those numbers. Written only when the datasheet prints the limits as numbers: a datasheet that states the range relative to the rails (GND...VDD, VSS...VDD) gives no number to write, so the field is omitted rather than filled with a supply value.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "maximumTerminalCurrent": {
+                    "description": "Maximum continuous current through the A, B or W terminal, in A (absolute-maximum table).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "maximumPulsedTerminalCurrent": {
+                    "description": "Maximum pulsed current through the A, B or W terminal, in A, where the datasheet gives one separately.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "rheostatIntegralNonlinearity": {
+                    "description": "Resistor integral nonlinearity R-INL (rheostat mode). A dimensionWithTolerance in LSB: nominal = the typical column as a magnitude (a datasheet '±0.25' typical is written 0.25), minimum / maximum = the guaranteed limits as printed, with their signs (−2 / +2). Keeping both columns matters because the guaranteed limit is the selection number.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "rheostatDifferentialNonlinearity": {
+                    "description": "Resistor differential nonlinearity R-DNL (rheostat mode). A dimensionWithTolerance in LSB: nominal = the typical column as a magnitude (a datasheet '±0.25' typical is written 0.25), minimum / maximum = the guaranteed limits as printed, with their signs (−2 / +2). Keeping both columns matters because the guaranteed limit is the selection number.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "potentiometerIntegralNonlinearity": {
+                    "description": "Integral nonlinearity INL of the divider (potentiometer mode). A dimensionWithTolerance in LSB: nominal = the typical column as a magnitude (a datasheet '±0.25' typical is written 0.25), minimum / maximum = the guaranteed limits as printed, with their signs (−2 / +2). Keeping both columns matters because the guaranteed limit is the selection number.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "potentiometerDifferentialNonlinearity": {
+                    "description": "Differential nonlinearity DNL of the divider (potentiometer mode). A dimensionWithTolerance in LSB: nominal = the typical column as a magnitude (a datasheet '±0.25' typical is written 0.25), minimum / maximum = the guaranteed limits as printed, with their signs (−2 / +2). Keeping both columns matters because the guaranteed limit is the selection number.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                },
+                "taper": {
+                    "description": "Resistance law over the codes. Absent means not sourced, not 'linear'.",
+                    "type": "string",
+                    "enum": [
+                        "linear",
+                        "logarithmic"
+                    ]
+                },
+                "logarithmicStepSize": {
+                    "description": "Attenuation step per code of a logarithmic (audio) part, in dB.",
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                },
+                "bandwidth": {
+                    "description": "-3 dB bandwidth of the divider at midscale, in Hz (depends on the resistance option).",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "totalHarmonicDistortion": {
+                    "description": "THD of the divider at the stated signal conditions, in dB.",
+                    "type": "number"
+                },
+                "memory": {
+                    "$ref": "#/$defs/memory"
+                },
+                "digitalInterface": {
+                    "description": "Host control interface(s). 'upDown' is the increment/decrement (CS/U-D/INC) interface; 'pushButton' is the debounced manual up/down inputs.",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "./utils.json#/$defs/digitalInterface"
+                    }
+                },
+                "supply": {
+                    "description": "Supply window (AAS supply). quiescentCurrentPerChannel is written only where the datasheet states a per-channel figure; digital potentiometers normally print a device figure, which goes in supplyCurrent instead. The two never appear together.",
+                    "$ref": "./utils.json#/$defs/supply"
+                },
+                "supplyCurrent": {
+                    "description": "Device supply current I_DD (all channels, interface idle), in A: the datasheet's device figure, typical column. Never derived from or divided into a per-channel figure (the interface draws current whatever the channel count). Mutually exclusive with supply.quiescentCurrentPerChannel, so the supply current is never modelled twice.",
+                    "type": "number",
+                    "minimum": 0
+                },
+                "digitalSupplyVoltage": {
+                    "description": "Separate logic / interface supply voltage, in V, on parts with a VLOGIC pin.",
+                    "$ref": "https://psma.com/peas/utils.json#/$defs/dimensionWithTolerance"
+                }
+            },
+            "required": [
+                "numberOfChannels",
+                "numberOfPositions",
+                "totalResistance"
+            ],
+            "allOf": [
+                {
+                    "$comment": "supplyCurrent (device figure) and supply.quiescentCurrentPerChannel (per-channel figure) describe the same current; a record carries at most one of them.",
+                    "not": {
+                        "required": [
+                            "supplyCurrent",
+                            "supply"
+                        ],
+                        "properties": {
+                            "supply": {
+                                "required": [
+                                    "quiescentCurrentPerChannel"
+                                ]
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "memory": {
+            "title": "digitalPotentiometerMemory",
+            "description": "Where the wiper setting lives across a power cycle. A CLOSED oneOf discriminated by a pinned `type` const: a volatile part has a power-on position and no write endurance; a non-volatile part has a storage technology and an endurance. Absent means not sourced.",
+            "oneOf": [
+                {
+                    "title": "volatileMemory",
+                    "description": "Wiper register only; the setting is lost at power-down and the wiper returns to a fixed power-on position.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "type": {
+                            "const": "volatile"
+                        },
+                        "powerOnPosition": {
+                            "description": "Wiper position at power-on as a fraction of full scale (0 = zero scale, 0.5 = midscale, 1 = full scale).",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                {
+                    "title": "nonVolatileMemory",
+                    "description": "The setting is stored and restored at power-on.",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "type": {
+                            "const": "nonVolatile"
+                        },
+                        "technology": {
+                            "description": "'eeprom' / 'flash' - rewritable; 'oneTimeProgrammable' - a fuse that is blown once (ADI OTP); 'multipleTimeProgrammable' - a fixed number of fuse writes (ADI 50-TP).",
+                            "type": "string",
+                            "enum": [
+                                "eeprom",
+                                "flash",
+                                "oneTimeProgrammable",
+                                "multipleTimeProgrammable"
+                            ]
+                        },
+                        "writeEndurance": {
+                            "description": "Number of writes the memory is rated for (1 for OTP, 50 for a 50-TP part, about 1e5...1e6 for EEPROM).",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "dataRetention": {
+                            "description": "Rated data retention, in s.",
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "required": [
+                        "type",
+                        "technology"
+                    ]
+                }
+            ]
+        }
+    }
+}

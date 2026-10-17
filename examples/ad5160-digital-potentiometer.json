@@ -1,0 +1,166 @@
+{
+    "inputs": {
+        "designRequirements": {
+            "name": "SPI digital potentiometer, 10 kOhm, 256 taps",
+            "deviceType": "digitalPotentiometer",
+            "minimumChannels": 1,
+            "supplyVoltage": {
+                "minimum": 2.7,
+                "maximum": 5.5,
+                "unit": "V"
+            }
+        }
+    },
+    "digitalPotentiometer": {
+        "manufacturerInfo": {
+            "name": "Analog Devices",
+            "reference": "AD5160",
+            "status": "production",
+            "description": "256 Position SPI Compatible Digital Potentiometer",
+            "datasheetUrl": "https://www.analog.com/media/en/technical-documentation/data-sheets/AD5160.pdf",
+            "datasheetInfo": {
+                "part": {
+                    "partNumber": "AD5160BRJZ10-RL7",
+                    "series": "AD5160",
+                    "case": "SOT-23-8",
+                    "package": "8-Lead SOT-23"
+                },
+                "electrical": {
+                    "numberOfChannels": 1,
+                    "configuration": "potentiometer",
+                    "numberOfPositions": 256,
+                    "totalResistance": {
+                        "nominal": 10000
+                    },
+                    "resistanceTolerance": 0.15,
+                    "temperatureCoefficient": 45,
+                    "ratiometricTemperatureCoefficient": 15,
+                    "wiperResistance": {
+                        "nominal": 50,
+                        "maximum": 120
+                    },
+                    "maximumTerminalCurrent": 0.0047,
+                    "maximumPulsedTerminalCurrent": 0.02,
+                    "rheostatIntegralNonlinearity": {
+                        "minimum": -2,
+                        "nominal": 0.25,
+                        "maximum": 2
+                    },
+                    "rheostatDifferentialNonlinearity": {
+                        "minimum": -1,
+                        "nominal": 0.1,
+                        "maximum": 1
+                    },
+                    "potentiometerIntegralNonlinearity": {
+                        "minimum": -1,
+                        "nominal": 0.3,
+                        "maximum": 1
+                    },
+                    "potentiometerDifferentialNonlinearity": {
+                        "minimum": -1,
+                        "nominal": 0.1,
+                        "maximum": 1
+                    },
+                    "bandwidth": 600000,
+                    "memory": {
+                        "type": "volatile",
+                        "powerOnPosition": 0.5
+                    },
+                    "digitalInterface": [
+                        "SPI"
+                    ],
+                    "supply": {
+                        "minimumSupplyVoltage": 2.7,
+                        "maximumSupplyVoltage": 5.5,
+                        "dualSupply": false
+                    },
+                    "supplyCurrent": 3e-06
+                },
+                "thermal": {
+                    "operatingTemperature": {
+                        "minimum": -40,
+                        "maximum": 125
+                    }
+                },
+                "pinout": [
+                    {
+                        "pin": "1",
+                        "name": "W",
+                        "function": "wiper"
+                    },
+                    {
+                        "pin": "2",
+                        "name": "VDD",
+                        "function": "supplyPositive"
+                    },
+                    {
+                        "pin": "3",
+                        "name": "GND",
+                        "function": "ground"
+                    },
+                    {
+                        "pin": "4",
+                        "name": "CLK",
+                        "function": "spiClock"
+                    },
+                    {
+                        "pin": "5",
+                        "name": "SDI",
+                        "function": "spiMosi"
+                    },
+                    {
+                        "pin": "6",
+                        "name": "CS",
+                        "function": "spiCs",
+                        "polarity": "activeLow"
+                    },
+                    {
+                        "pin": "7",
+                        "name": "B",
+                        "function": "terminalB"
+                    },
+                    {
+                        "pin": "8",
+                        "name": "A",
+                        "function": "terminalA"
+                    }
+                ],
+                "provenance": [
+                    {
+                        "source": "manufacturerDatasheet",
+                        "sourceName": "Analog Devices AD5160 data sheet Rev. C",
+                        "sourceUrl": "https://www.analog.com/media/en/technical-documentation/data-sheets/AD5160.pdf",
+                        "retrievedDate": "2026-10-17",
+                        "fields": [
+                            "datasheetInfo.part.package",
+                            "datasheetInfo.electrical.numberOfChannels",
+                            "datasheetInfo.electrical.configuration",
+                            "datasheetInfo.electrical.numberOfPositions",
+                            "datasheetInfo.electrical.totalResistance",
+                            "datasheetInfo.electrical.resistanceTolerance",
+                            "datasheetInfo.electrical.temperatureCoefficient",
+                            "datasheetInfo.electrical.ratiometricTemperatureCoefficient",
+                            "datasheetInfo.electrical.wiperResistance",
+                            "datasheetInfo.electrical.maximumTerminalCurrent",
+                            "datasheetInfo.electrical.maximumPulsedTerminalCurrent",
+                            "datasheetInfo.electrical.rheostatIntegralNonlinearity",
+                            "datasheetInfo.electrical.rheostatDifferentialNonlinearity",
+                            "datasheetInfo.electrical.potentiometerIntegralNonlinearity",
+                            "datasheetInfo.electrical.potentiometerDifferentialNonlinearity",
+                            "datasheetInfo.electrical.bandwidth",
+                            "datasheetInfo.electrical.memory",
+                            "datasheetInfo.electrical.digitalInterface",
+                            "datasheetInfo.electrical.supply",
+                            "datasheetInfo.electrical.supplyCurrent",
+                            "datasheetInfo.thermal.operatingTemperature",
+                            "datasheetInfo.pinout"
+                        ],
+                        "verification": "valuesReadFromSource",
+                        "verificationDate": "2026-10-17"
+                    }
+                ]
+            }
+        }
+    },
+    "outputs": []
+}

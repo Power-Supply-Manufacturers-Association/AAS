@@ -56,3 +56,11 @@ TEST_CASE("integrator behavioral block is carried verbatim", "[aas]") {
     CHECK(leaf.at("components")[0].at("data").at("analog").at("integrator")
               .at("behavioral").at("gain") == 1000.0);
 }
+
+TEST_CASE("digital potentiometer is not lowered yet and throws, never falls back", "[aas]") {
+    // A digipot has no behavioural lowering (a design-time two-resistor divider is a separate task);
+    // until one exists the converter must refuse it loudly rather than emit anything.
+    json doc = {{"analog", {{"digitalPotentiometer", {{"manufacturerInfo", {{"name", "Analog Devices"}}}}}}}};
+    CHECK_THROWS_WITH(AAS::aas_to_cias(doc, PEAS::Fidelity(PEAS::Fidelity::Origin::REQUIREMENTS), "U4"),
+                      ContainsSubstring("no supported block"));
+}

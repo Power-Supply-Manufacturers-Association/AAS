@@ -21,6 +21,7 @@ AAS is the home for **domain-agnostic analog building blocks**:
 | `multiplexer` | ADG706, CD74HC4051, MAX4051 |
 | `adc` | ADS1115, AD7124, ADS8688, AD9226 |
 | `dac` | AD5681, DAC8568, MCP4725, AD9744 |
+| `digitalPotentiometer` | AD5160, MCP41xx, TPL0401, DS1809 |
 
 ## What does NOT belong here
 
@@ -34,7 +35,7 @@ The boundary test: if the part's reason-for-being is *controlling or sensing a p
 ```
 AAS document
   inputs       designRequirements seed (+ optional operatingPoints)
-  <family>     exactly one of the 14 families above (the field name is the discriminator)
+  <family>     exactly one of the 15 families (the table above plus the ideal behavioural blocks `multiplier`, `summer`, `integrator`) (the field name is the discriminator)
   outputs[]    per-operating-point results (powerDissipation, thermal, selection)
 ```
 

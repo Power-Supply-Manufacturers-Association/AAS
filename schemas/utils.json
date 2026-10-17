@@ -289,7 +289,7 @@
         },
         "digitalInterface": {
             "title": "digitalInterface",
-            "description": "Host digital control/data interface of a programmable analog IC (PGA, ADC, DAC). An array because some parts offer more than one (e.g. parallel or pin-strap).",
+            "description": "Host digital control/data interface of a programmable analog IC (PGA, ADC, DAC, digital potentiometer). 'upDown' = increment/decrement control (chip-select + up/down + increment pins, Microchip MCP40xx / ADI AD5220 style); 'pushButton' = debounced manual up/down button inputs (ADI AD5228, Maxim DS1809). An array because some parts offer more than one (e.g. parallel or pin-strap).",
             "type": "string",
             "enum": [
                 "SPI",
@@ -299,7 +299,9 @@
                 "pinStrap",
                 "serialLVDS",
                 "parallelLVDS",
-                "JESD204"
+                "JESD204",
+                "upDown",
+                "pushButton"
             ]
         },
         "referenceSource": {

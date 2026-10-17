@@ -25,6 +25,7 @@
                         "multiplexer",
                         "adc",
                         "dac",
+                        "digitalPotentiometer",
                         "multiplier",
                         "integrator",
                         "summer"
